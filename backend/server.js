@@ -1,9 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import connectDB from './config/db.js';
 dotenv.config();
 // .js is important because we are using ES module in backend
 import products from './data/product.js';
 const port = process.env.PORT || 5000;
+connectDB();
 const app= express();
 
 app.get('/', (req, res)=>{
