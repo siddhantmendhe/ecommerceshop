@@ -1,0 +1,24 @@
+{
+  "name": "ecommerceshop",
+  "version": "1.0.0",
+  "description": "MERN Stack application",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siddhantmendhe/ecommerceshop.git"
+  },
+  "author": "Siddhant Mendhe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/siddhantmendhe/ecommerceshop/issues"
+  },
+  "homepage": "https://github.com/siddhantmendhe/ecommerceshop#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
