@@ -20,6 +20,7 @@ router.get('/:id',
         return res.json(product);
 
     }
-    res.status(404).json({message:'Product not found'});
+    res.status(404);
+    throw new Error('Resourse not found');
 }));
 export default router;
