@@ -2,6 +2,11 @@ import {FaStar, FaStarHalfAlt, FaRegStar} from 'react-icons/fa';
 import React from 'react'
 
 const Rating = ({value, text}) => {
+  let original=value;
+  value=value*10;
+  let point_star=value%10;
+  let star_before_point= original-point_star;
+  console.Console(point_star, star_before_point);
   return (
     <div className='rating'>
     <span>
