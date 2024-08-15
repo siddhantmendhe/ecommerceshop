@@ -12,7 +12,7 @@ const app= express();
 app.get('/', (req, res)=>{
     res.send('API is runnig...');
 });
-app.use('/api/products',productRoutes)
+app.use('/api/products', productRoutes);
 
 app.use(errorHandler);
 
