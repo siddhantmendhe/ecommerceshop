@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom';
 import {Row, Col, Image, ListGroup, Card, Button} from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useGetProductDetailsQuery } from '../slices/productApiSlice';
+import Loader from '../components/Loader';
+import AlertPage from '../components/AlertPage';
 const ProductScreen = () => {
     const {id:productId}= useParams();
     const {data:product, isLoading, isError}=useGetProductDetailsQuery(productId);
   return (
     <>
-    {isLoading?(<div>loading !</div>):isError?(<div>An error has occurred!</div>):( 
+    {isLoading?(<Loader/>):isError?(<AlertPage/>):( 
         <><Link className='btn btn-light my-3' to='/'>Go Back</Link>
     <Row>
         <Col md={5}>
