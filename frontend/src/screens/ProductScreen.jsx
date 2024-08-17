@@ -1,15 +1,27 @@
-import {React }from 'react'
+import {React, useState }from 'react'
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {Row, Col, Image, ListGroup, Card, Button} from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useGetProductDetailsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
+import { Prev } from 'react-bootstrap/esm/PageItem';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../slices/cartSlice';
 const ProductScreen = () => {
     const {id:productId}= useParams();
+    const [qty,setQty]=useState(1);
     const {data:product, isLoading, isError}=useGetProductDetailsQuery(productId);
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+    //add to card handler
+    const addToCartHandler=()=>{
+        dispatch(addToCart({...product,qty}));
+        navigate('/cart')
+    }
+
   return (
     <>
     {isLoading?(<Loader/>):isError?(<AlertPage/>):( 
@@ -50,10 +62,20 @@ const ProductScreen = () => {
                             </Col>
                         </Row>
                     </ListGroup.Item>
+                    {product.countInStock>0 &&(<ListGroup.Item><Row>
+                            <Col><Button onClick={()=>setQty(qty-1)}  disabled={qty===1}>-</Button></Col>
+                            <Col>
+                            <span>{qty}</span>
+                            </Col>
+                            <Col>
+                            <Button onClick={()=>setQty(qty+1)}  disabled={qty===product.countInStock}>+</Button></Col>
+                        </Row></ListGroup.Item>)}
+                    
                     <ListGroup.Item>
                        <Button className='btn-block'
                        type='button'
-                       disabled={product.countInStock===0}>
+                       disabled={product.countInStock===0}
+                       onClick={addToCartHandler}>
                         Add to Cart
                        </Button>
                     </ListGroup.Item>
