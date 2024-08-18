@@ -44,7 +44,7 @@ export const cartSlice = createSlice({
         decreaseQty:(state,action)=>{
             const {item,value}=action.payload;
 
-            state.cartItems=state.cartItems.map(temp=>{
+             state.cartItems=state.cartItems.map(temp=>{
                 if(item._id===temp._id){
                     
 
@@ -76,7 +76,7 @@ export const cartSlice = createSlice({
            
             
 
-         updatedState(state);
+         updateStatePrices(state);
 
 
 
