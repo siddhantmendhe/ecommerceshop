@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux';
 import {Navbar, Nav, Container, Badge,Button} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
-import { decreaseQty } from '../slices/cartSlice';
+import { decreaseQty, removeCartItem } from '../slices/cartSlice';
 
 import {
     MDBBtn,
@@ -32,6 +32,12 @@ function CartScreen() {
         dispatch(decreaseQty({item,value:item.qty+1}))
       
 
+    }
+
+    //remove item handler
+    const removeItemHandler=async(item)=>{
+        dispatch(removeCartItem(item));
+        console.log('hello')
     }
 
 
@@ -89,18 +95,18 @@ function CartScreen() {
                             </div>
                           </div>
                           <div className="d-flex flex-row align-items-center">
-                            <div style={{ padding: "10px" }}>
+                            <div style={{ padding: "5px" }}>
                               <MDBTypography tag="h5" className="fw-normal mb-0">
                                 <><form><Button onClick={()=>decreaseHandler(item)} disabled={item.qty <=1} >-</Button>  <span>{item.qty||' '}</span> <Button onClick={()=>increaseHandler(item)} disabled={item.countInStock<=item.qty} >+</Button> </form></>
                               </MDBTypography>
                             </div>
-                            <div style={{ width: "80px" }}>
+                            <div style={{ padding: "5px" }}>
                               <MDBTypography tag="h5" className="mb-0">
                                 {item.price*item.qty}
                               </MDBTypography>
                             </div>
                             <a href="#!" style={{ color: "#cecece" }}>
-                              <MDBIcon fas icon="trash-alt" />
+                           <MDBIcon fas icon="trash-alt" onClick={()=>removeItemHandler(item)} />
                             </a>
                           </div>
                         </div>

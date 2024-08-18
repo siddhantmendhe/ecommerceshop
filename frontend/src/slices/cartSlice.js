@@ -5,6 +5,23 @@ const initialState=localStorage.getItem('cart')?JSON.parse(localStorage.getItem(
 const addDecimals=(num)=>{
     return (Math.round(num*100/100)).toFixed(2);
 }
+const updateStatePrices=(state)=>{
+        //Calculate items price
+        state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
+
+        //Calculate shipping charge
+        state.shippingCharge=addDecimals(state.itemsPrice>100?0:10);
+        //Calculate Items Tax
+        state.taxPrice=addDecimals((Number(0.15*(state.itemsPrice))));
+        //Calculate Total price
+        state.totalPrice=(
+            Number(state.itemsPrice)+
+            Number(state.shippingCharge)+
+            Number(state.taxPrice)
+        ).toFixed(2);
+        localStorage.setItem('cart',JSON.stringify(state))
+
+}
 export const cartSlice = createSlice({
     name:'cart',
     initialState,
@@ -20,21 +37,8 @@ export const cartSlice = createSlice({
                 state.cartItems=[...state.cartItems, item];
             }
 
-            //Calculate items price
-            state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
+           updateStatePrices(state);
 
-            //Calculate shipping charge
-            state.shippingCharge=addDecimals(state.itemsPrice>100?0:10);
-            //Calculate Items Tax
-            state.taxPrice=addDecimals((Number(0.15*(state.itemsPrice))));
-            //Calculate Total price
-            state.totalPrice=(
-                Number(state.itemsPrice)+
-                Number(state.shippingCharge)+
-                Number(state.taxPrice)
-            ).toFixed(2);
-
-            localStorage.setItem('cart',JSON.stringify(state))
 
         },
         decreaseQty:(state,action)=>{
@@ -52,17 +56,7 @@ export const cartSlice = createSlice({
             console.log(state);
             state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
 
-            //Calculate shipping charge
-            state.shippingCharge=addDecimals(state.itemsPrice>100?0:10);
-            //Calculate Items Tax
-            state.taxPrice=addDecimals((Number(0.15*(state.itemsPrice))));
-            //Calculate Total price
-            state.totalPrice=(
-                Number(state.itemsPrice)+
-                Number(state.shippingCharge)+
-                Number(state.taxPrice)
-            ).toFixed(2);
-            localStorage.setItem('cart',JSON.stringify(state))
+           updateStatePrices(state);
 
 
 
@@ -80,26 +74,22 @@ export const cartSlice = createSlice({
             }           })
             
             state.cartItems=updatedState;
-            console.log(state);
-            state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
+            
 
-            //Calculate shipping charge
-            state.shippingCharge=addDecimals(state.itemsPrice>100?0:10);
-            //Calculate Items Tax
-            state.taxPrice=addDecimals((Number(0.15*(state.itemsPrice))));
-            //Calculate Total price
-            state.totalPrice=(
-                Number(state.itemsPrice)+
-                Number(state.shippingCharge)+
-                Number(state.taxPrice)
-            ).toFixed(2);
-            localStorage.setItem('cart',JSON.stringify(state))
+         updatedState(state);
 
 
+
+        },
+        removeCartItem:(state,action)=>{
+            const item=action.payload;
+            const updatedState=state.cartItems.filter(temp=> temp._id!==item._id);
+            state.cartItems=updatedState;
+            updateStatePrices(state);
 
         }
     },
    
 
 });
-export const {addToCart,decreaseQty, increaseQty}= cartSlice.actions;
+export const {addToCart,decreaseQty, increaseQty, removeCartItem}= cartSlice.actions;
