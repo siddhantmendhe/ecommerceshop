@@ -44,7 +44,7 @@ export const cartSlice = createSlice({
         decreaseQty:(state,action)=>{
             const {item,value}=action.payload;
 
-            const updatedState=state.cartItems.map(temp=>{
+            state.cartItems=state.cartItems.map(temp=>{
                 if(item._id===temp._id){
                     
 
@@ -52,7 +52,7 @@ export const cartSlice = createSlice({
             else{
                 return temp;
             }           })
-            state.cartItems=updatedState;
+          
             console.log(state);
             state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
 
@@ -64,7 +64,7 @@ export const cartSlice = createSlice({
         increaseQty:(state,action)=>{
             const {item,value}=action.payload;
 
-            const updatedState=state.cartItems.map(temp=>{
+            state.cartItems=state.cartItems.map(temp=>{
                 if(item._id===temp._id){
                     
 
@@ -73,7 +73,7 @@ export const cartSlice = createSlice({
                 return temp;
             }           })
             
-            state.cartItems=updatedState;
+           
             
 
          updatedState(state);
@@ -83,8 +83,8 @@ export const cartSlice = createSlice({
         },
         removeCartItem:(state,action)=>{
             const item=action.payload;
-            const updatedState=state.cartItems.filter(temp=> temp._id!==item._id);
-            state.cartItems=updatedState;
+            state.cartItems=state.cartItems.filter(temp=> temp._id!==item._id);
+           
             updateStatePrices(state);
 
         }
