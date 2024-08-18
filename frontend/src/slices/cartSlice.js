@@ -48,9 +48,20 @@ export const cartSlice = createSlice({
             else{
                 return temp;
             }           })
-            console.log(`decreaseqty: ${item}`) 
             state.cartItems=updatedState;
             console.log(state);
+            state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
+
+            //Calculate shipping charge
+            state.shippingCharge=addDecimals(state.itemsPrice>100?0:10);
+            //Calculate Items Tax
+            state.taxPrice=addDecimals((Number(0.15*(state.itemsPrice))));
+            //Calculate Total price
+            state.totalPrice=(
+                Number(state.itemsPrice)+
+                Number(state.shippingCharge)+
+                Number(state.taxPrice)
+            ).toFixed(2);
             localStorage.setItem('cart',JSON.stringify(state))
 
 
@@ -67,9 +78,21 @@ export const cartSlice = createSlice({
             else{
                 return temp;
             }           })
-            console.log(`increaseqty: ${item}`) 
+            
             state.cartItems=updatedState;
             console.log(state);
+            state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
+
+            //Calculate shipping charge
+            state.shippingCharge=addDecimals(state.itemsPrice>100?0:10);
+            //Calculate Items Tax
+            state.taxPrice=addDecimals((Number(0.15*(state.itemsPrice))));
+            //Calculate Total price
+            state.totalPrice=(
+                Number(state.itemsPrice)+
+                Number(state.shippingCharge)+
+                Number(state.taxPrice)
+            ).toFixed(2);
             localStorage.setItem('cart',JSON.stringify(state))
 
 

@@ -26,12 +26,11 @@ function CartScreen() {
 
     const decreaseHandler= async(item)=>{
         dispatch(decreaseQty({item,value:item.qty-1}))
-        console.log('hello')
-
+       
     }
     const increaseHandler= async(item)=>{
         dispatch(decreaseQty({item,value:item.qty+1}))
-        console.log('hello')
+      
 
     }
 
@@ -130,22 +129,23 @@ function CartScreen() {
 
                     <div className="d-flex justify-content-between">
                       <p className="mb-2">Subtotal</p>
-                      <p className="mb-2">{cart}</p>
+                      <p className="mb-2">{cart.itemsPrice}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
                       <p className="mb-2">Shipping</p>
-                      <p className="mb-2">$20.00</p>
+                      <p className="mb-2">{cart.shippingCharge}</p>
                     </div>
 
                     <div className="d-flex justify-content-between">
-                      <p className="mb-2">Total(Incl. taxes)</p>
-                      <p className="mb-2">$4818.00</p>
+                      <p className="mb-2">Total(taxes)</p>
+                      <p className="mb-2">{cart.taxPrice}</p>
                     </div>
 
                     <MDBBtn color="info" block size="lg">
                       <div className="d-flex justify-content-between">
-                        <span>$4818.00</span>
+                        <span>{cart.totalPrice}</span>
+                        
                         <span>
                           Checkout{" "}
                           <i className="fas fa-long-arrow-alt-right ms-2"></i>
