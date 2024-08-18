@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const Header = () => {
     const {cartItems}=useSelector(state=>state.cart);
-    console.log(cartItems.lenght)
+    console.log(cartItems)
     const cartItemCount=cartItems.reduce((acc, c)=> acc+c.qty,0)
   return (
     <header>

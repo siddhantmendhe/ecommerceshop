@@ -10,6 +10,7 @@ import AlertPage from '../components/AlertPage';
 import { Prev } from 'react-bootstrap/esm/PageItem';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 const ProductScreen = () => {
     const {id:productId}= useParams();
     const [qty,setQty]=useState(1);

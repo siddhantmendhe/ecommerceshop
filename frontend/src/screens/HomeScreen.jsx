@@ -4,6 +4,7 @@ import Product from '../components/Product';
 import { useGetProductsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 
 const HomeScreen = () => {
   const  {data: products, isLoading, isError}=useGetProductsQuery();

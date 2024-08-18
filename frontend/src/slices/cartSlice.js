@@ -36,9 +36,47 @@ export const cartSlice = createSlice({
 
             localStorage.setItem('cart',JSON.stringify(state))
 
+        },
+        decreaseQty:(state,action)=>{
+            const {item,value}=action.payload;
+
+            const updatedState=state.cartItems.map(temp=>{
+                if(item._id===temp._id){
+                    
+
+                return {...item, qty:value}}
+            else{
+                return temp;
+            }           })
+            console.log(`decreaseqty: ${item}`) 
+            state.cartItems=updatedState;
+            console.log(state);
+            localStorage.setItem('cart',JSON.stringify(state))
+
+
+
+        },
+        increaseQty:(state,action)=>{
+            const {item,value}=action.payload;
+
+            const updatedState=state.cartItems.map(temp=>{
+                if(item._id===temp._id){
+                    
+
+                return {...item, qty:value}}
+            else{
+                return temp;
+            }           })
+            console.log(`increaseqty: ${item}`) 
+            state.cartItems=updatedState;
+            console.log(state);
+            localStorage.setItem('cart',JSON.stringify(state))
+
+
+
         }
     },
    
 
 });
-export const {addToCart}= cartSlice.actions;
+export const {addToCart,decreaseQty, increaseQty}= cartSlice.actions;

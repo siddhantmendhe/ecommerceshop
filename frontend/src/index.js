@@ -4,10 +4,13 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} fr
 // import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css'
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './components/CartScreen';
 import { Provider } from 'react-redux'
 import { store } from './store';
 
@@ -16,6 +19,8 @@ const router=createBrowserRouter(
     <Route path='/' element={<App/>}>
       <Route index={true} path='/' element={<HomeScreen/>}/>
       <Route path='/product/:id' element={<ProductScreen/>}/>
+      <Route path='/cart' element={<CartScreen/>}/>
+
 
     </Route>
   )
