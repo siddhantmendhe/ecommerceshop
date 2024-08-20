@@ -1,14 +1,31 @@
 import express from 'express';
 const router = express.Router()
 import asyncHandler from '../middleware/asyncHandler.js';
-import Product from '../models/userModel.js';
+import User from '../models/userModel.js';
 
 // @desc Auth user and ger token
 // @route POST/api/users/login
 // @access Public
 
 const authUser=asyncHandler(async(req,res)=>{
-    res.send('auth user');
+    const {email, password}=req.body;
+    const user =await User.findOne({email});
+
+    if(user && (await user.matchPassword(password))){
+        res.json({
+            _id:user._id,
+            name:user.name,
+            email:user.email,
+            admin:user.isAdmin
+
+        })
+        
+    }
+    else{
+        res.status(401);
+        throw new Error('Password or email is worng');
+        
+    }
 })
 
 // @desc Logout user
