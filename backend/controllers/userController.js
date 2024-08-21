@@ -4,6 +4,7 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
+import { genJsonToken } from '../utils/genJsonToken.js';
 
 // @desc Auth user and ger token
 // @route POST/api/users/login
@@ -15,18 +16,7 @@ const authUser=asyncHandler(async(req,res)=>{
     const user =await User.findOne({email});
 
     if(user && (await user.matchPassword(password))){
-        const token = jwt.sign({ userID:user._id }, process.env.JWTCode
-          , { expiresIn: '30d' }
-        );
-        //Set HTTP-Only cookie
-        res.cookie('jwt',token,
-            {
-                httpOnly: true,
-               
-                sameSite:'strict',
-                maxAge: 30*24*60*60*1000
-            }
-        )
+        genJsonToken(user._id);
         res.json({
             _id:user._id,
             name:user.name,
@@ -70,7 +60,25 @@ const logoutUser=asyncHandler(async(req,res)=>{
 // @route POST/api/users/
 // @access Public
 const registerUser=asyncHandler(async(req,res)=>{
-    res.send('register user');
+    const {name, email, password} =req.body;
+    // check if this email user already exists
+    if(await User.findOne({email})){
+        res.status(401);
+        throw new Error('Already Registered!');
+    }
+    else{
+        const user= await User.create({name, email, password});
+        genJsonToken(res, user._id);
+        res.json({
+            _id:user._id,
+            name:user.name,
+            email:user.email,
+            admin:user.isAdmin
+
+        })
+
+    }
+   
 });
 
 // @desc Get user profile
