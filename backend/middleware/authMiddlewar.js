@@ -5,18 +5,17 @@ import User from '../models/userModel.js';
 const protect=asyncHandler(async(req, res, next)=>{
     if(req.cookies.jwt){
 
-        try{const decoded=jwt.verify( req.cookies.jwt, process.env.JWTCode);
-         req.user=await User.findById(decoded.userID).select('-password');
-
-       
-    console.log('test',req.cookies)
-    next();}
+        try{
+            const decoded=jwt.verify( req.cookies.jwt, process.env.JWTCode);
+            req.user=await User.findById(decoded.userID).select('-password');
+            next();
+        }
     catch{
         throw new Error('You are not authorized, Token failed');
-    }
-}
+    }}
+    
     else{
-        throw new Error('You are not autherized')
+        throw new Error('You are not autherized');
     }
 
 })

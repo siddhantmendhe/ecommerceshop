@@ -37,13 +37,12 @@ const authUser=asyncHandler(async(req,res)=>{
         
     }
     else{
-      
-        res.cookie('jwt',{},
+      //overring jwt in cookie for security
+        res.cookie('jwt','',
             {
                 httpOnly: true,
                
-                sameSite:'strict',
-                maxAge: 30*24*60*60*1000
+               expires: new Date(0)
             }
         )
         res.status(401);
@@ -57,7 +56,14 @@ const authUser=asyncHandler(async(req,res)=>{
 // @access Public
 
 const logoutUser=asyncHandler(async(req,res)=>{
-    res.send('logout user');
+    res.cookie('jwt','',
+        {
+            httpOnly: true,
+           
+           expires: new Date(0)
+        }
+    )
+    res.status(200).json({message:'You are logged out'});
 })
 
 // @desc register user
