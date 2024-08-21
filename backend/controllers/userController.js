@@ -37,6 +37,15 @@ const authUser=asyncHandler(async(req,res)=>{
         
     }
     else{
+      
+        res.cookie('jwt',{},
+            {
+                httpOnly: true,
+               
+                sameSite:'strict',
+                maxAge: 30*24*60*60*1000
+            }
+        )
         res.status(401);
         throw new Error('Password or email is worng');
         
