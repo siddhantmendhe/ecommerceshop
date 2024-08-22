@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux';
-import {Navbar, Nav, Container, Badge,Button} from 'react-bootstrap';
+import {Navbar,Button} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import { decreaseQty, removeCartItem } from '../slices/cartSlice';
 
@@ -13,15 +13,16 @@ import {
     MDBCol,
     MDBContainer,
     MDBIcon,
-    MDBInput,
     MDBRow,
     MDBTypography,
     } from "mdb-react-ui-kit";
 import { Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function CartScreen() {
     const cart=useSelector(state=>state.cart);
     const dispatch=useDispatch();
+    const navigate=useNavigate();
     const {cartItems}=cart;
 
     const decreaseHandler= async(item)=>{
@@ -39,6 +40,9 @@ function CartScreen() {
         dispatch(removeCartItem(item));
         console.log('hello')
     }
+    const checkoutHandler = () => {
+      navigate('/login?redirect=/shipping');
+    };
 
 
     console.log(cart.itemsPrice)
@@ -148,7 +152,7 @@ function CartScreen() {
                       <p className="mb-2">{cart.taxPrice}</p>
                     </div>
 
-                    <MDBBtn color="info" block size="lg">
+                    <MDBBtn color="info" block size="lg"  onClick={checkoutHandler}>
                       <div className="d-flex justify-content-between">
                         <span>{cart.totalPrice}</span>
                         
