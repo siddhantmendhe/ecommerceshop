@@ -1,16 +1,29 @@
-import React, { useState } from 'react'
+import  { useEffect, useState } from 'react'
 import FormContainer from '../components/FormContainer'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLoginMutation } from '../slices/userApiSlice';
+import { setCredentials } from '../slices/authSlice';
 
-const submitHandler=(e)=>{
-    e.preventDefault();
-    console.log('submit');
-}
 
 const LoginScreen = () => {
-const [email, setEmail] =useState();
-const [password, setPassword]=useState();
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const [email, setEmail] =useState('');
+  const [password, setPassword]=useState('');
+  const [login ,{isLading,error}]=useLoginMutation();
+  //getting value from store
+  const userInfo=useSelector(state=> state.auth);
+
+
+const submitHandler= async(e)=>{
+  e.preventDefault();
+  const response=await login({email,password}).unwrap();
+  dispatch(setCredentials({...response}));
+  console.log(response);
+  console.log(userInfo)
+}
   return (
     <FormContainer>
     <h1>Sign In</h1>
