@@ -6,7 +6,10 @@ import { Outlet } from 'react-router-dom'
 
 const App = () => {
   return (
-    <>
+    <div aria-live="polite"
+    aria-atomic="true"
+    className=" position-relative"
+    style={{ minHeight: '240px' }}>
     <Header/>
     <main className='py-3'>
       <Container>
@@ -15,7 +18,7 @@ const App = () => {
       </Container>
     </main>
     <Footer/>
-    </>
+    </div>
   )
 }
 

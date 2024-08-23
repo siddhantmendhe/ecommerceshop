@@ -1,13 +1,16 @@
 import  { useEffect, useState } from 'react'
 import FormContainer from '../components/FormContainer'
-import {Form, Button, Row, Col} from 'react-bootstrap'
+import {Form, Button, Row, Col,Toast,Alert, ToastContainer} from 'react-bootstrap'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/userApiSlice';
 import { setCredentials } from '../slices/authSlice';
+import CustomToast from '../components/CustomToast';
 
 
 const LoginScreen = () => {
+  const [alert, setAlert]=useState(false); // to track alert
+  const [errTemp, setErrTemp]=useState('');
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const [email, setEmail] =useState('');
@@ -15,6 +18,8 @@ const LoginScreen = () => {
   const [login ,{isLading,error}]=useLoginMutation();
   //getting value from store
   const {userInfo}=useSelector(state=> state.auth);
+
+  
 
   //check if is there any redirect param in url
 
@@ -34,13 +39,23 @@ const LoginScreen = () => {
 
 const submitHandler= async(e)=>{
   e.preventDefault();
-  const response=await login({email,password}).unwrap();
+  try {
+    const response=await login({email,password}).unwrap();
   dispatch(setCredentials({...response}));
+  } catch (err) {
+    setAlert(true);
+    setTimeout(() => {
+      setAlert(false);
+    }, 5000);
+    setErrTemp(err?.data?.message||err)
+    console.log(err?.data?.message||err);
+  }
 
 }
   return (
-    <FormContainer>
+    <FormContainer >
     <h1>Sign In</h1>
+  <div >{alert?   (<CustomToast message={errTemp}/>):''}</div>
 
     <Form onSubmit={submitHandler}>
       <Form.Group className='my-2' controlId='email'>
