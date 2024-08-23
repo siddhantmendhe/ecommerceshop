@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react'
 import FormContainer from '../components/FormContainer'
 import {Form, Button, Row, Col} from 'react-bootstrap'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/userApiSlice';
 import { setCredentials } from '../slices/authSlice';
@@ -16,13 +16,23 @@ const LoginScreen = () => {
   //getting value from store
   const userInfo=useSelector(state=> state.auth);
 
+  //check if is there any redirect param in url
+
+  const [URLSearchParams]= new useSearchParams();
+  const redirect=URLSearchParams.get('redirect')||'/';
+  useEffect(()=>{
+    if(userInfo)
+      {navigate(redirect);}
+  },[userInfo,redirect,navigate]);
+
+ 
+
 
 const submitHandler= async(e)=>{
   e.preventDefault();
   const response=await login({email,password}).unwrap();
   dispatch(setCredentials({...response}));
-  console.log(response);
-  console.log(userInfo)
+
 }
   return (
     <FormContainer>
