@@ -14,15 +14,19 @@ const LoginScreen = () => {
   const [password, setPassword]=useState('');
   const [login ,{isLading,error}]=useLoginMutation();
   //getting value from store
-  const userInfo=useSelector(state=> state.auth);
+  const {userInfo}=useSelector(state=> state.auth);
 
   //check if is there any redirect param in url
 
   const [URLSearchParams]= new useSearchParams();
-  const redirect=URLSearchParams.get('redirect')||'/';
+  const redirect=URLSearchParams.get('redirect')|| '/';
   useEffect(()=>{
-    if(userInfo)
-      {navigate(redirect);}
+  
+    if(userInfo){
+      
+      navigate(redirect);
+
+    }
   },[userInfo,redirect,navigate]);
 
  
