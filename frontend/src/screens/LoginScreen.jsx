@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-do
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/userApiSlice';
 import { setCredentials } from '../slices/authSlice';
+import Loader from '../components/Loader'
 import CustomToast from '../components/CustomToast';
 
 
@@ -15,20 +16,23 @@ const LoginScreen = () => {
   const navigate=useNavigate();
   const [email, setEmail] =useState('');
   const [password, setPassword]=useState('');
-  const [login ,{isLading,error}]=useLoginMutation();
+  const [login ,{isLoading, status}]=useLoginMutation();
+  // const obj=useLoginMutation();
+  // console.log('obj:',obj)
+
   //getting value from store
   const {userInfo}=useSelector(state=> state.auth);
 
-  
 
   //check if is there any redirect param in url
 
   const [URLSearchParams]= new useSearchParams();
   const redirect=URLSearchParams.get('redirect')|| '/';
   useEffect(()=>{
-  
+   
+    console.log('local',userInfo)
     if(userInfo){
-      
+    
       navigate(redirect);
 
     }
@@ -40,7 +44,11 @@ const LoginScreen = () => {
 const submitHandler= async(e)=>{
   e.preventDefault();
   try {
+    console.log(status)
     const response=await login({email,password}).unwrap();
+    console.log('second times',status)
+  
+
   dispatch(setCredentials({...response}));
   } catch (err) {
     setAlert(true);
@@ -78,16 +86,18 @@ const submitHandler= async(e)=>{
         ></Form.Control>
       </Form.Group>
 
-      <Button  type='submit' variant='primary'>
+      <Button  type='submit' variant='primary' disabled={isLoading}>
         Sign In
       </Button>
       </Form>
       <Row className='py-3'>
         <Col>
-        New Customer? <Link to='/register'>Register</Link>
+        New Customer? <Link to={URLSearchParams.get('redirect')?`register?/redirect=${URLSearchParams.get('redirect')}`:`/register`}>Register</Link>
         </Col>
 
       </Row>
+      {isLoading &&<Loader/>}
+
       </FormContainer>
       
       

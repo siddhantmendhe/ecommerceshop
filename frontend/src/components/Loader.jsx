@@ -1,11 +1,18 @@
 import React from 'react'
-import Placeholder from 'react-bootstrap/Placeholder';
+import {Spinner} from 'react-bootstrap';
 const Loader = () => {
   return (
     <div>
-        <Placeholder as="p" animation="glow" >
-        <Placeholder xs={12} bg="success"/>
-      </Placeholder>
+          <Spinner
+      animation='border'
+      role='status'
+      style={{
+        width: '100px',
+        height: '100px',
+        margin: 'auto',
+        display: 'block',
+      }}
+    ></Spinner>
     </div>
   )
 }
