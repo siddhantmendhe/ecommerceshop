@@ -3,20 +3,22 @@ import FormContainer from '../components/FormContainer'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 import { Link,  useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLoginMutation } from '../slices/userApiSlice';
+import { useRegisterUserMutation } from '../slices/userApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import Loader from '../components/Loader'
 import CustomToast from '../components/CustomToast';
 
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
   const [errTemp, setErrTemp]=useState('');
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const [email, setEmail] =useState('');
   const [password, setPassword]=useState('');
-  const [login ,{isLoading}]=useLoginMutation();
+  const [name, setName]= useState('');
+  const [confirmPassword, setConfirmPassword]= useState('');
+  const [registerUser ,{isLoading}]=useRegisterUserMutation();
   // const obj=useLoginMutation();
   // console.log('obj:',obj)
 
@@ -27,7 +29,7 @@ const LoginScreen = () => {
   //check if is there any redirect param in url
 
   const [URLSearchParams]= new useSearchParams();
-  const redirect=URLSearchParams.get('redirect')|| '/';
+  const redirect=URLSearchParams.get('redirect') || '/';
   useEffect(()=>{
    
    
@@ -43,26 +45,44 @@ const LoginScreen = () => {
 
 const submitHandler= async(e)=>{
   e.preventDefault();
-  try {
-    
-    const response=await login({email,password}).unwrap();
-    dispatch(setCredentials({...response}));
-  } catch (err) {
+  if(password!==confirmPassword){
     setAlert(true);
     setTimeout(() => {
-      setAlert(false);
-    }, 5000);
-    setErrTemp(err?.data?.message||err)
-    console.log(err?.data?.message||err);
+        setAlert(false);
+      }, 5000);
+      setErrTemp('password not matched');
+  }else{
+    try {
+    
+        const response=await registerUser({name,email,password}).unwrap();
+        dispatch(setCredentials({...response}));
+      } catch (err) {
+        setAlert(true);
+        setTimeout(() => {
+          setAlert(false);
+        }, 5000);
+        setErrTemp(err?.data?.message||err)
+        console.log(err?.data?.message||err);
+      }
   }
+
 
 }
   return (
     <FormContainer >
-    <h1>Sign In</h1>
+    <h1>Sign Up</h1>
   <div >{alert?   (<CustomToast message={errTemp}/>):''}</div>
 
     <Form onSubmit={submitHandler}>
+    <Form.Group className='my-2' controlId='name'>
+        <Form.Label>Full Name</Form.Label>
+        <Form.Control
+          type='text'
+          placeholder='Enter Full Name'
+          value={name}
+         onChange={(e)=>setName(e.target.value)}
+        ></Form.Control>
+      </Form.Group>
       <Form.Group className='my-2' controlId='email'>
         <Form.Label>Email Address</Form.Label>
         <Form.Control
@@ -82,14 +102,23 @@ const submitHandler= async(e)=>{
           onChange={(e) => setPassword(e.target.value)}
         ></Form.Control>
       </Form.Group>
+      <Form.Group className='my-2' controlId='Confirm_password'>
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type='password'
+          placeholder='Enter password'
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        ></Form.Control>
+      </Form.Group>
 
       <Button  type='submit' variant='primary' disabled={isLoading}>
-        Sign In
+        Register
       </Button>
       </Form>
       <Row className='py-3'>
         <Col>
-        New Customer? <Link to={URLSearchParams.get('redirect')?`/register?/redirect=${redirect}`:`/register`}>Register</Link>
+        Already a Customer?<Link to={URLSearchParams.get('redirect')?`/login?/redirect=${redirect}`:`/register`}>Sign In</Link>
         </Col>
 
       </Row>
@@ -101,4 +130,4 @@ const submitHandler= async(e)=>{
   )
 }
 
-export default LoginScreen
+export default RegisterScreen;
