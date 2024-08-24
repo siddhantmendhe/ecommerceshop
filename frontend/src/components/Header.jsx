@@ -3,13 +3,26 @@ import {Navbar, Nav, Container, Badge,NavDropdown } from 'react-bootstrap';
 import {FaShoppingCart, FaUser} from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import {LinkContainer} from 'react-router-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useLogoutApiMutation } from '../slices/userApiSlice';
+import { setLogoutUser } from '../slices/authSlice';
+
 
 const Header = () => {
     const {cartItems}=useSelector(state=>state.cart);
     const {userInfo}= useSelector(state=> state.auth)
-    const logouthandler=()=>{
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+    const [logoutApi]=useLogoutApiMutation();
+    
+
+    //logout functionality
+    const logouthandler=async()=>{
         console.log('logout')
+        await logoutApi();
+        dispatch(setLogoutUser());
+        navigate('/login');
 
     }
     const cartItemCount=cartItems.reduce((acc, c)=> acc+c.qty,0)

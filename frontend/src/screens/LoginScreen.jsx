@@ -30,7 +30,7 @@ const LoginScreen = () => {
   const redirect=URLSearchParams.get('redirect')|| '/';
   useEffect(()=>{
    
-    console.log('local',userInfo)
+   
     if(userInfo){
     
       navigate(redirect);
@@ -44,9 +44,9 @@ const LoginScreen = () => {
 const submitHandler= async(e)=>{
   e.preventDefault();
   try {
-    console.log(status)
+    
     const response=await login({email,password}).unwrap();
-    console.log('second times',status)
+    
   
 
   dispatch(setCredentials({...response}));
