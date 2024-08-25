@@ -118,7 +118,7 @@ const submitHandler= async(e)=>{
       </Form>
       <Row className='py-3'>
         <Col>
-        Already a Customer?<Link to={URLSearchParams.get('redirect')?`/login?/redirect=${redirect}`:`/register`}>Sign In</Link>
+        Already a Customer?<Link to={URLSearchParams.get('redirect')?`/login?/redirect=${redirect}`:`/login`}>Sign In</Link>
         </Col>
 
       </Row>

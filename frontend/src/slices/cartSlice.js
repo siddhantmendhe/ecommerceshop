@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState=localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')) :{cartItems:[]}
+const initialState=localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')) :{cartItems:[],shippingAddress:{},paymentMethod:'PayPal'}
 
 const addDecimals=(num)=>{
     return (Math.round(num*100/100)).toFixed(2);
 }
-const updateStatePrices=(state)=>{
+const updateCartState=(state)=>{
         //Calculate items price
         state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
 
@@ -37,7 +37,7 @@ export const cartSlice = createSlice({
                 state.cartItems=[...state.cartItems, item];
             }
 
-           updateStatePrices(state);
+           updateCartState(state);
 
 
         },
@@ -56,7 +56,7 @@ export const cartSlice = createSlice({
             console.log(state);
             state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
 
-           updateStatePrices(state);
+           updateCartState(state);
 
 
 
@@ -76,7 +76,7 @@ export const cartSlice = createSlice({
            
             
 
-         updateStatePrices(state);
+         updateCartState(state);
 
 
 
@@ -85,7 +85,12 @@ export const cartSlice = createSlice({
             const item=action.payload;
             state.cartItems=state.cartItems.filter(temp=> temp._id!==item._id);
            
-            updateStatePrices(state);
+            updateCartState(state);
+
+        },
+        saveShipppingAddress:(state,action)=>{
+            state.shippingAddress=action.payload;
+            updateCartState(state);
 
         }
     },
