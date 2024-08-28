@@ -24,10 +24,10 @@ const router=createBrowserRouter(
     <Route path='/' element={<App/>}>
       <Route index={true} path='/' element={<HomeScreen/>}/>
       <Route path='/product/:id' element={<ProductScreen/>}/>
-      <Route path='/cart' element={<CartScreen/>}/>
       <Route path='/login' element={<LoginScreen/>}/>
       <Route path='/register' element={<RegisterScreen/>}/>
       <Route path='' element={<PrivateRount/>}>
+        <Route path='/cart' element={<CartScreen/>}/>
         <Route path='/shipping' element={<ShippingScreen/>}/>
         <Route path='/payment' element={<PaymentScreen/>}/>
 
