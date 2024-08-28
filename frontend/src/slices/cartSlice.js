@@ -92,9 +92,13 @@ export const cartSlice = createSlice({
             state.shippingAddress=action.payload;
             updateCartState(state);
  
+        },
+        savePaymentMedhod:(state, action)=>{
+            state.paymentMethod=action.payload;
+            updateCartState(state);
         }
     },
    
  
 });
-export const {addToCart,decreaseQty, increaseQty, removeCartItem, saveShipppingAddress}= cartSlice.actions;
+export const {addToCart,decreaseQty, increaseQty, removeCartItem, saveShipppingAddress, savePaymentMedhod}= cartSlice.actions;
