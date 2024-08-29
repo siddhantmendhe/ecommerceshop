@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import productRoutes from './routs/productRoutes.js'
 import userRoutes from './routs/userRoutes.js'
+import orderRoutes from './routs/orderRoutes.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser'
 dotenv.config();
@@ -23,6 +24,8 @@ app.get('/', (req, res)=>{
 app.use('/api/products', productRoutes);
 
 app.use('/api/users',userRoutes);
+
+app.use('/api/orders',orderRoutes)
 
 app.use(errorHandler);
 
