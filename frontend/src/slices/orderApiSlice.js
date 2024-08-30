@@ -1,9 +1,9 @@
 import { apiSlice } from "./apiSlice";
 import { ORDERS_URL } from "../constants";
-import { query } from "express";
+
 
 export const orderApiSlice=apiSlice.injectEndpoints({
-    endpoints:(builder)=>{
+    endpoints:(builder)=>({
         createOrder: builder.mutation({
             query:(order)=>({
                 url:`${ORDERS_URL}`,
@@ -11,7 +11,7 @@ export const orderApiSlice=apiSlice.injectEndpoints({
                 body: order
             })
         })
-    }
+    })
 })
 
 export const {usecreateOrderMutaion}=orderApiSlice;
