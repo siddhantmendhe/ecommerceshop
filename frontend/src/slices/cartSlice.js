@@ -96,6 +96,10 @@ export const cartSlice = createSlice({
         savePaymentMedhod:(state, action)=>{
             state.paymentMethod=action.payload;
             updateCartState(state);
+        },
+        clearCartItems:(state,action)=>{
+            state.cartItems=[];
+            updateCartState(state);
         }
     },
    

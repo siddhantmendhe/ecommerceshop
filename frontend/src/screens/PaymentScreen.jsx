@@ -21,7 +21,7 @@ const PaymentScreen = () => {
     const submitHandler=(e)=>{
         e.preventDefault();
         dispatch(savePaymentMedhod(paymentMethod));
-        navigate('placeorder');
+        navigate('/placeorder');
         
     }
     
