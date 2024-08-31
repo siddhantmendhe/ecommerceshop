@@ -18,7 +18,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PrivateRount from './screens/PrivateRount';
 import PaymentScreen from './screens/PaymentScreen';
-import PlaceOrder from './screens/PlaceOrder';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
  
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -31,7 +31,7 @@ const router=createBrowserRouter(
         <Route path='/cart' element={<CartScreen/>}/>
         <Route path='/shipping' element={<ShippingScreen/>}/>
         <Route path='/payment' element={<PaymentScreen/>}/>
-        <Route path='/placeorder' element={<PlaceOrder/>}/>
+        <Route path='/placeorder' element={<PlaceOrderScreen/>}/>
         
 
       </Route>

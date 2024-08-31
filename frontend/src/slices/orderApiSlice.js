@@ -14,4 +14,4 @@ export const orderApiSlice=apiSlice.injectEndpoints({
     })
 })
 
-export const {usecreateOrderMutaion}=orderApiSlice;
+export const {useCreateOrderMutation}=orderApiSlice;

@@ -23,7 +23,7 @@ const addOrderItems= asyncHandler(async (req, res) => {
   }
   else{
     const order= new Order( {
-        orderItems: map.orderItems(temp=> ({
+        orderItems: orderItems.map(temp=> ({
             ...temp,
             product:temp._id,
         _id:undefined
@@ -35,10 +35,11 @@ const addOrderItems= asyncHandler(async (req, res) => {
         shippingPrice,
         taxPrice,
         totalPrice
-    })
-  }
-  const createdOrder=await order.save();
-    res.status(201).json(createdOrder);});
+    });
+    const createdOrder=await order.save();
+    res.status(201).json(createdOrder);
+  }})
+  
 
 // @desc get my order
 // @route GET/api/orders/mine

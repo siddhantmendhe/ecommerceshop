@@ -105,4 +105,4 @@ export const cartSlice = createSlice({
    
  
 });
-export const {addToCart,decreaseQty, increaseQty, removeCartItem, saveShipppingAddress, savePaymentMedhod}= cartSlice.actions;
+export const {addToCart,decreaseQty, increaseQty, removeCartItem, saveShipppingAddress, savePaymentMedhod, clearCartItems}= cartSlice.actions;
