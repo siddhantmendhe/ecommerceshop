@@ -60,7 +60,7 @@ const submitHandler= async(e)=>{
   return (
     <FormContainer >
     <h1>Sign In</h1>
-  <div >{alert?   (<CustomToast message={errTemp}/>):''}</div>
+  <div >{alert?   (<CustomToast veriant="danger" message={errTemp}/>):''}</div>
 
     <Form onSubmit={submitHandler}>
       <Form.Group className='my-2' controlId='email'>

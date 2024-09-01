@@ -1,10 +1,10 @@
 import React from 'react'
 import {Toast, ToastContainer} from 'react-bootstrap'
-const CustomToast = ({message}) => {
+const CustomToast = ({veriant ,message}) => {
   return (
     <>
        <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 1 }}>
-        <Toast bg='danger'> 
+        <Toast bg={veriant}> 
           <Toast.Header className='bg-danger text-white'> 
             <img
               src="holder.js/20x20?text=%20"

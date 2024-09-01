@@ -1,19 +1,77 @@
-import React from 'react'
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import React, { useEffect } from 'react'
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom'
-import { useGetOrderDetailsQuery } from '../slices/orderApiSlice';
+import { useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from '../slices/orderApiSlice';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import { useSelector } from 'react-redux';
 
 const OrderScreen = () => {
     const {id:orderId}=useParams();
     const {
         data: order,
-       
+       refetch,
         isLoading,
         error,
-      } = useGetOrderDetailsQuery(orderId)
-    console.log(order);
+      } = useGetOrderDetailsQuery(orderId);
+    
+    const [payOrder,{isLoading:LoadingPayOrder}]= usePayOrderMutation();
+    const {data:payPalClientId,isLoading:loadingClientData, error: cleintIDError}= useGetPayPalClientIdQuery();
+    const [{isPending}, payPalDispatch]=usePayPalScriptReducer();
+    const {userInfo}= useSelector(state=> state.auth);
+
+    useEffect(()=>{
+      if(!loadingClientData&& !cleintIDError && payPalClientId){
+        const loadPayPalScript= async()=>{
+          payPalDispatch({
+            type:'resetOptions',
+            value:{
+              'clientId':payPalClientId.clientID,
+              currency:'USD',
+              intent: "capture",
+            }
+          });
+          payPalDispatch({type:'setLoadingStatus', value:'pending'});
+        };
+        if(order&&!order.isPaid){
+          loadPayPalScript();
+
+        }
+      }
+    },[loadingClientData,cleintIDError,payPalClientId,order,payPalDispatch])
+    function onApprove(data, actions) {
+      return actions.order.capture().then(async function (details) {
+        try {
+          await payOrder({ orderId, details });
+          refetch();
+       
+        } catch (err) {
+          console.log(err?.data?.message || err.error);
+        }
+      });
+    }
+
+  const onError=(err)=>{
+    console.log(err)
+  }
+
+    const onCreateOrder = (data,actions) => {
+      
+  }
+
+
+
+   // TESTING ONLY! REMOVE BEFORE PRODUCTION
+  // async function onApproveTest() {
+  //   await payOrder({ orderId, details: { payer: {} } });
+  //   refetch();
+  //   console.log('test')
+
+  
+  // }
+
+    
 
   return (
    
@@ -42,6 +100,7 @@ const OrderScreen = () => {
                 {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
               </p>
+              
               {order.isDelivered ? (
                 <Message variant='success'>
                   Delivered on {order.deliveredAt}
@@ -127,6 +186,34 @@ const OrderScreen = () => {
                   <Col>$ {order.totalPrice||0}</Col>
                 </Row>
               </ListGroup.Item>
+             
+         {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingClientData && <Loader />}
+
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <div>
+                      {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */} 
+                     {/* <Button
+                        style={{ marginBottom: '10px' }}
+                       onApprove={onApproveTest}
+                      >
+                        Test Pay Order
+                      </Button> */}
+
+                      <div>
+                      <PayPalButtons
+                          // createOrder={onCreateOrder}
+                          
+                          // onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                </ListGroup.Item>
+              )}
             
 
               

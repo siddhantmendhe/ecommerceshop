@@ -139,7 +139,7 @@ const PlaceOrder = () => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-              {alert?   (<CustomToast message={errTemp}/>):''}
+              {alert?   (<CustomToast veriant="danger" message={errTemp}/>):''}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
