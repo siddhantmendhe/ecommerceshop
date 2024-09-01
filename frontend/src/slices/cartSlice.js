@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState=localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')) :{cartItems:[],shippingAddress:{},paymentMethod:'PayPal'}
  
 const addDecimals=(num)=>{
-    return (Math.round(num*100/100)).toFixed(2);
+    return (Math.round((num*100)/100)).toFixed(2);
 }
 const updateCartState=(state)=>{
         //Calculate items price

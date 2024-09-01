@@ -7,22 +7,19 @@ import CustomToast from '../components/CustomToast';
 import Loader from '../components/Loader'
 import {  useCreateOrderMutation } from '../slices/orderApiSlice';
 import { clearCartItems } from '../slices/cartSlice';
+import Message from '../components/Message';
 
 
 const PlaceOrder = () => {
   const [alert, setAlert]=useState(false); // to track alert
   const [errTemp, setErrTemp]=useState('');
     const cart= useSelector(state=> state.cart)
-    console.log("now cart",cart.cartItems)
     const dispatch= useDispatch()
     const navigate= useNavigate();
 
     console.log(cart);
     useEffect(()=>{
-      if(cart.cartItems.length===0){
-        navigate('/')
-
-    }
+     
         if(!cart.shippingAddress.address){
             navigate('/shopping')
 
@@ -32,7 +29,7 @@ const PlaceOrder = () => {
 
         }
 
-    },[cart.shippingAddress, cart.paymentMethod,navigate]);
+    },[cart.shippingAddress,cart.cartItems.length, cart.paymentMethod,navigate]);
     const [createOrder, {isLoading}]= useCreateOrderMutation();
   const placeOrderHandler=async()=>{
     try {
@@ -60,7 +57,7 @@ const PlaceOrder = () => {
    <>
     <CheckoutSteps step1 step2 step3 step4 />
     
-      <Row>
+      {cart.cartItems.length===0?(<Message variant='danger'>Cart is empty</Message>):(<Row>
         <Col md={8}>
         
           <ListGroup variant='flush'>
@@ -158,7 +155,7 @@ const PlaceOrder = () => {
             </ListGroup>
           </Card>
         </Col>
-      </Row>
+      </Row>)}
     </>
    
   )
