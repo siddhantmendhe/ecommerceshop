@@ -106,25 +106,25 @@ const OrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>{order.itemsPrice||0}</Col>
+                  <Col>$ {order.itemsPrice||0}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>{order.shippingPrice||0}</Col>
+                  <Col>$ {order.shippingPrice||0}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>{order.taxPrice||0}</Col>
+                  <Col>$ {order.taxPrice||0}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>{order.totalPrice||0}</Col>
+                  <Col>$ {order.totalPrice||0}</Col>
                 </Row>
               </ListGroup.Item>
             
