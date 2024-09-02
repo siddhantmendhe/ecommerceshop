@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom'
@@ -8,6 +8,12 @@ import Loader from '../components/Loader';
 import { useSelector } from 'react-redux';
 
 const OrderScreen = () => {
+  const [alert, setAlert]=useState(false); // to track alert
+  const [alertDone, setAlertDone]=useState(false); // to track alert
+
+  const [errTemp, setErrTemp]=useState('');
+
+
     const {id:orderId}=useParams();
     const {
         data: order,
@@ -18,9 +24,11 @@ const OrderScreen = () => {
     
     const [payOrder,{isLoading:LoadingPayOrder}]= usePayOrderMutation();
     const {data:payPalClientId,isLoading:loadingClientData, error: cleintIDError}= useGetPayPalClientIdQuery();
-    const [{isPending}, payPalDispatch]=usePayPalScriptReducer();
+    const [{ options, isPending }, payPalDispatch] = usePayPalScriptReducer();
     const {userInfo}= useSelector(state=> state.auth);
+    const [currency, setCurrency] = useState(options.currency);
 
+ 
     useEffect(()=>{
       if(!loadingClientData&& !cleintIDError && payPalClientId){
         const loadPayPalScript= async()=>{
@@ -40,25 +48,73 @@ const OrderScreen = () => {
         }
       }
     },[loadingClientData,cleintIDError,payPalClientId,order,payPalDispatch])
-    function onApprove(data, actions) {
-      return actions.order.capture().then(async function (details) {
-        try {
-          await payOrder({ orderId, details });
-          refetch();
-       
-        } catch (err) {
-          console.log(err?.data?.message || err.error);
-        }
+
+    const onCurrencyChange = ({ target: { value } }) => {
+      setCurrency(value);
+      payPalDispatch({
+          type: "resetOptions",
+          value: {
+              ...options,
+              currency: value,
+            
+          },
       });
-    }
+  }
+  // TESTING ONLY! REMOVE BEFORE PRODUCTION
+  async function onApproveTest() {
+
+    await payOrder({ orderId, details: { payer: {} } });
+      refetch();
+    setAlertDone(true);
+    setTimeout(() => {
+      setAlertDone(false);
+    }, 5000);
+setErrTemp(`Payment done`)
+  
+  }
+
+  const onApproveOrder = (data,actions) => {
+    return actions.order.capture().then(async(details) => {
+        try {
+          await payOrder({orderId,details})
+      refetch();
+
+          setAlertDone(true);
+          setTimeout(() => {
+            setAlertDone(false);
+          }, 5000);
+      setErrTemp(`Payment done`)
+        } catch (err) {
+          setAlert(true);
+          setTimeout(() => {
+            setAlert(false);
+          }, 5000);
+    setErrTemp(`Error ${err?.data?.message||err}`)
+
+        }
+    });
+}
 
   const onError=(err)=>{
-    console.log(err)
+    setAlert(true);
+          setTimeout(() => {
+            setAlert(false);
+          }, 5000);
+    setErrTemp(`Error ${err}`)
   }
 
-    const onCreateOrder = (data,actions) => {
-      
-  }
+  const onCreateOrder = (data,actions) => {
+    return actions.order.create({
+        purchase_units: [
+            {
+                amount: {
+                  currency_code:"USD",
+                    value: "0.01",
+                },
+            },
+        ],
+    });
+}
 
 
 
@@ -80,8 +136,14 @@ const OrderScreen = () => {
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : (
-    <>
+    <> {alert &&<Message variant='danger'>
+   {errTemp}
+  </Message>}
+  {alertDone &&<Message variant='success'>
+   {errTemp}
+  </Message>}
       <h1>Order ID :{order._id}</h1>
+     
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -189,29 +251,28 @@ const OrderScreen = () => {
              
          {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingClientData && <Loader />}
+                  {LoadingPayOrder && <Loader />}
 
-                  {isPending ? (
-                    <Loader />
-                  ) : (
-                    <div>
-                      {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */} 
-                     {/* <Button
+                  {isPending ? <Loader /> : (
+                <>
+                  {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
+                      <Button
                         style={{ marginBottom: '10px' }}
-                       onApprove={onApproveTest}
+                        onClick={onApproveTest}
                       >
                         Test Pay Order
-                      </Button> */}
-
-                      <div>
-                      <PayPalButtons
-                          // createOrder={onCreateOrder}
-                          
-                          // onError={onError}
-                        ></PayPalButtons>
-                      </div>
-                    </div>
-                  )}
+                      </Button>
+                    <select value={currency} onChange={onCurrencyChange}>
+                            <option value="USD">💵 USD</option>
+                            <option value="EUR">💶 Euro</option>
+                    </select>
+                    <PayPalButtons 
+                        style={{ layout: "vertical" }}
+                        createOrder={(data, actions) => onCreateOrder(data, actions)}
+                        onApprove={(data, actions) => onApproveOrder(data, actions)}
+                    />
+                </>
+            )}
                 </ListGroup.Item>
               )}
             

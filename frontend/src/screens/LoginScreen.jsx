@@ -53,7 +53,7 @@ const submitHandler= async(e)=>{
       setAlert(false);
     }, 5000);
     setErrTemp(err?.data?.message||err)
-    console.log(err?.data?.message||err);
+   
   }
 
 }

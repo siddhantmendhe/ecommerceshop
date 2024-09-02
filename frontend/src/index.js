@@ -49,12 +49,16 @@ const router=createBrowserRouter(
     </Route>
   )
 )
-
+const initialOptions = {
+  "client-id": "",
+  currency: "USD",
+  intent: "capture",
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <PayPalScriptProvider deferLoading={true} >
+    <PayPalScriptProvider options={initialOptions} deferLoading={true} >
      <Provider store={store}>
     <RouterProvider router={router}/>
     </Provider>
