@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom'
 import { useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from '../slices/orderApiSlice';
 import Message from '../components/Message';
@@ -61,17 +61,17 @@ const OrderScreen = () => {
       });
   }
   // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  async function onApproveTest() {
+//   async function onApproveTest() {
 
-    await payOrder({ orderId, details: { payer: {} } });
-      refetch();
-    setAlertDone(true);
-    setTimeout(() => {
-      setAlertDone(false);
-    }, 5000);
-setErrTemp(`Payment done`)
+//     await payOrder({ orderId, details: { payer: {} } });
+//       refetch();
+//     setAlertDone(true);
+//     setTimeout(() => {
+//       setAlertDone(false);
+//     }, 5000);
+// setErrTemp(`Payment done`)
   
-  }
+//   }
 
   const onApproveOrder = (data,actions) => {
     return actions.order.capture().then(async(details) => {
@@ -109,11 +109,11 @@ setErrTemp(`Payment done`)
             {
                 amount: {
                   currency_code:"USD",
-                    value: "0.01",
+                    value: order.totalPrice,
                 },
             },
         ],
-    });
+    }).then((orderId)=> orderId);
 }
 
 
@@ -256,12 +256,12 @@ setErrTemp(`Payment done`)
                   {isPending ? <Loader /> : (
                 <>
                   {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      <Button
+                      {/* <Button
                         style={{ marginBottom: '10px' }}
                         onClick={onApproveTest}
                       >
                         Test Pay Order
-                      </Button>
+                      </Button> */}
                     <select value={currency} onChange={onCurrencyChange}>
                             <option value="USD">💵 USD</option>
                             <option value="EUR">💶 Euro</option>
@@ -270,6 +270,7 @@ setErrTemp(`Payment done`)
                         style={{ layout: "vertical" }}
                         createOrder={(data, actions) => onCreateOrder(data, actions)}
                         onApprove={(data, actions) => onApproveOrder(data, actions)}
+                        onError={(data, actions) => onError(data, actions)}
                     />
                 </>
             )}
