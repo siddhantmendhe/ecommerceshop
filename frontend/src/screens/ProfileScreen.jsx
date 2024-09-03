@@ -30,7 +30,7 @@ const ProfileScreen = () => {
 
     //update profile mutaion 
     const [profileUpdate, {isLoading:loadingUpdateProfile}]= useProfileUpdateMutation();
-    //set localstorage for userInfo
+  
    
     
     const submitHandler=async(e)=>{
@@ -40,8 +40,9 @@ const ProfileScreen = () => {
 
         }
         else{
-          const res= await profileUpdate({name, email, password}).unwrap()
-        dispatch(setCredentials({...res}))
+          const res= await profileUpdate({name, email, password}).unwrap();
+          //set localstorage for userInfo
+          dispatch(setCredentials({...res}))
       }
         
         setAlertDone(true);
