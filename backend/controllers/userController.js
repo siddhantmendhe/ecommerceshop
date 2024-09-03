@@ -21,7 +21,7 @@ const authUser=asyncHandler(async(req,res)=>{
             _id:user._id,
             name:user.name,
             email:user.email,
-            admin:user.isAdmin
+            isAdmin:user.isAdmin
 
         })
         
@@ -73,7 +73,7 @@ const registerUser=asyncHandler(async(req,res)=>{
             _id:user._id,
             name:user.name,
             email:user.email,
-            admin:user.isAdmin
+            isAdmin:user.isAdmin
 
         })
 
