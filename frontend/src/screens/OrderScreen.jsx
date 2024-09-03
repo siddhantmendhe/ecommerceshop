@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 const OrderScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
-  const [alertDone, setAlertDone]=useState(false); // to track alert
+  const [alertDone, setAlertDone]=useState(false); // to track successful alert
 
   const [errTemp, setErrTemp]=useState('');
 
