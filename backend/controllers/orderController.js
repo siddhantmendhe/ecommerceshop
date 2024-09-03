@@ -105,8 +105,12 @@ const UpdateOderToDelivered= asyncHandler(async (req, res) => {
 // @route GET/api/orders/all
 // @access Private/Admin
 const getAllOrders= asyncHandler(async (req, res) => {
+    const orders= await Order.find({}).populate('user', '_id email');
+
   
-    res.send('get all order items');});
+    res.status(200).json(orders);
+}
+);
 
 export{
     addOrderItems,
