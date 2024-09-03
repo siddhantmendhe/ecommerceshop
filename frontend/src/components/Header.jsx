@@ -47,17 +47,29 @@ const Header = () => {
                       {cartItemCount}
                     </Badge>)}</Nav.Link>
                         </LinkContainer>
-                        {userInfo?(      <NavDropdown title={userInfo.name} id="usernme">
+                        {userInfo?
+                        (<NavDropdown title={userInfo.name} id="usernme">
                                <LinkContainer className='text-dark ' to="/profile">
                                <NavDropdown.Item>Profile</NavDropdown.Item>
                         </LinkContainer>
                         <NavDropdown.Item onClick={logouthandler}>Log out</NavDropdown.Item>
-                                
-    
-                                
-                            </NavDropdown>):(  <LinkContainer to="/login">
+                        </NavDropdown>):(  <LinkContainer to="/login">
                         <Nav.Link><FaUser/>Sign In</Nav.Link>
                         </LinkContainer>)}
+
+                        {userInfo && userInfo.isAdmin && (
+                        <NavDropdown title='Admin' id='adminmenu'>
+                          <LinkContainer to='/admin/productlist'>
+                            <NavDropdown.Item>Products</NavDropdown.Item>
+                          </LinkContainer>
+                          <LinkContainer to='/admin/orderlist'>
+                            <NavDropdown.Item>Orders</NavDropdown.Item>
+                          </LinkContainer>
+                          <LinkContainer to='/admin/userlist'>
+                            <NavDropdown.Item>Users</NavDropdown.Item>
+                          </LinkContainer>
+                        </NavDropdown>
+                      )}
                       
                     </Nav>
                 </Navbar.Collapse>
