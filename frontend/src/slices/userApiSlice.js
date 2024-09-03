@@ -25,10 +25,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
           method:'POST',
           body:data
         })
-      })
+      }),
+      profile:builder.mutation({
+        query:(data)=>({
+          url:`${USER_URL}/profile`,
+          method:'POST',
+          body: data,
+
+        })
+      }),
      
     }),
     
   })
   
-  export const {useLoginMutation, useLogoutApiMutation, useRegisterUserMutation}=userApiSlice;
+  export const {useLoginMutation, useLogoutApiMutation, useRegisterUserMutation, useProfileMutation}=userApiSlice;
