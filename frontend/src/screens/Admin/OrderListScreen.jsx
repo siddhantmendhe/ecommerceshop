@@ -8,7 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 const OrderListScreen = () => {
     const {data:orders, isLoading, error}= useGetAllOrdersQuery()
-    console.log(orders)
+    
   return (
     <>
        <h1>Orders</h1>
@@ -47,7 +47,7 @@ const OrderListScreen = () => {
                 </td>
                 <td>
                   {order.isDelivered ? (
-                    order.deliveredAt.substring(0, 10)
+                    order.DeliveredAt.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}
