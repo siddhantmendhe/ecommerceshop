@@ -133,9 +133,20 @@ const OrderScreen = () => {
     const deliverOrderHandler=async()=>{
       try {
         await deliverOrder({orderId});
+      refetch();
+
+        setAlertDone(true);
+        setTimeout(() => {
+          setAlertDone(false);
+        }, 5000);
+       setErrTemp(`Order has been delivered`);
  
-      } catch (error) {
-        
+      } catch (err) {
+        setAlert(true);
+          setTimeout(() => {
+            setAlert(false);
+          }, 5000);
+    setErrTemp(`Error ${err}`)
       }
     }
 
