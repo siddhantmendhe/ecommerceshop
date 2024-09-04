@@ -30,7 +30,32 @@ const createProduct= asyncHandler(async (req, res) => {
   res.status(200).json(newProduct);
 
 })
-export {getProduct, getProducts, createProduct};
+
+// @desc edit a product
+// @route PUT/api/products/:id/edit
+// @access Private/Admin
+const editProduct= asyncHandler(async (req, res) => {
+  const product= await Product.findById(req.params.id);
+  const data=req.body;
+if(product){
+  product.name=data.name||product.name;
+  product.image=data.image||product.image;
+  product.price=data.price|| product.price;
+  product.brand=data.brand||product.brand;
+  product.description=data.description||product.description;
+  product.countInStock=data.countInStock||product.countInStock;
+
+  const updatedProduct= await product.save();
+  res.status(200).json(updatedProduct);
+}else{
+  res.status(404)
+  throw new Error("product not found");
+}
+
+  
+
+})
+export {getProduct, getProducts, createProduct, editProduct};
 
 
 
