@@ -186,7 +186,7 @@ const OrderScreen = () => {
               
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.deliveredAt}
+                  Delivered on {order.DeliveredAt}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>

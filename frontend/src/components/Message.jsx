@@ -5,8 +5,8 @@ const Message = ({ variant, children }) => {
   const [show, setShow] = useState(true);
   return (
     <>
-            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+            <Alert variant={variant} onClose={() => setShow(false)} dismissible>
+        <Alert.Heading></Alert.Heading>
         <p>
           {children}
         </p>

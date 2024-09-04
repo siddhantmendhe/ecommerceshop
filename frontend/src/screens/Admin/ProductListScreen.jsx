@@ -10,35 +10,24 @@ import CustomToast from '../../components/CustomToast';
 const ProductListScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
   const [alertDone, setAlertDone]=useState(false); // to track successful alert
+
   const [errTemp, setErrTemp]=useState('');
     const {data,refetch, isLoading, isError}= useGetProductsQuery();
-    const [createProduct, {isLoading:createProductLoading, isError:createProductError}]= useCreateProductMutation();
-  
-
+    const [createProduct, {isLoading:createProductLoading}]= useCreateProductMutation();
     console.log(data);
     const deleteHandler=(id)=>{
         console.log('id', id)
     }
     const createProducthandler=async()=>{
-      
         if(window.confirm("Are you sure you want to add a new product ?")){
-           
-             try {
-              await createProduct();
-              refetch();
-             } catch (error) {
-        
-              setAlert(false);
-           
-       
-             }
-     
-            if(alert){setAlertDone(true);
+             await createProduct();
+             refetch();
+             
+          setAlertDone(true);
           setTimeout(() => {
             setAlertDone(false);
           }, 5000);
-          setErrTemp(`New product created`)}
-     
+      setErrTemp(`New product created`)
 
         }else{
           setAlert(true);
@@ -47,8 +36,7 @@ const ProductListScreen = () => {
           }, 5000);
     setErrTemp(`New product creation canceled`);
         }
-     
-    
+
     }
  
   return (
@@ -59,8 +47,7 @@ const ProductListScreen = () => {
   {alertDone &&<CustomToast variant='success' message={errTemp}> 
    
   </CustomToast>}
- 
- { createProductError&&<Message variant='danger' >Error while creating new product</Message>}
+  
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>
