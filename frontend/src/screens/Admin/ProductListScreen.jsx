@@ -13,7 +13,7 @@ const ProductListScreen = () => {
 
   const [errTemp, setErrTemp]=useState('');
     const {data,refetch, isLoading, isError}= useGetProductsQuery();
-    const [createProduct, {isLoading:createProductLoading, isError:createProductError}]= useCreateProductMutation();
+    const [createProduct, {isLoading:createProductLoading}]= useCreateProductMutation();
     console.log(data);
     const deleteHandler=(id)=>{
         console.log('id', id)
@@ -38,15 +38,10 @@ const ProductListScreen = () => {
         }
 
     }
-    const onClickToast=()=>{
-      setAlert(false);
-      setAlertDone(false);
-
-
-    }
+ 
   return (
     <>
-    {alert &&<CustomToast variant='danger' message={errTemp} onClick={onClickToast}>
+    {alert &&<CustomToast variant='danger' message={errTemp}>
 
   </CustomToast>}
   {alertDone &&<CustomToast variant='success' message={errTemp}> 
@@ -63,7 +58,7 @@ const ProductListScreen = () => {
         </Col>
       </Row>
 
-   
+      {createProductLoading&&<Loader/>}
       {isLoading ? (
         <Loader />
       ) : isError ? (
