@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {  useCreateProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
+import CustomToast from '../../components/CustomToast';
 
 const ProductListScreen = () => {
+  const [alert, setAlert]=useState(false); // to track alert
+  const [alertDone, setAlertDone]=useState(false); // to track successful alert
+
+  const [errTemp, setErrTemp]=useState('');
     const {data,refetch, isLoading, isError}= useGetProductsQuery();
     const [createProduct, {isLoading:createProductLoading, isError:createProductError}]= useCreateProductMutation();
     console.log(data);
@@ -17,14 +22,36 @@ const ProductListScreen = () => {
         if(window.confirm("Are you sure you want to add a new product ?")){
              await createProduct();
              refetch();
+             
+          setAlertDone(true);
+          setTimeout(() => {
+            setAlertDone(false);
+          }, 5000);
+      setErrTemp(`New product created`)
 
         }else{
-
+          setAlert(true);
+          setTimeout(() => {
+            setAlert(false);
+          }, 5000);
+    setErrTemp(`New product creation canceled`);
         }
+
+    }
+    const onClickToast=()=>{
+      setAlert(false);
+      setAlertDone(false);
+
 
     }
   return (
     <>
+    {alert &&<CustomToast variant='danger' message={errTemp} onClick={onClickToast}>
+
+  </CustomToast>}
+  {alertDone &&<CustomToast variant='success' message={errTemp}> 
+   
+  </CustomToast>}
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>

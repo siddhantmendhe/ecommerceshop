@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Toast, ToastContainer} from 'react-bootstrap'
-const CustomToast = ({veriant ,message}) => {
+const CustomToast = ({variant ,message}) => {
+  const classtext=`bg-${variant}`;
+  const [showA, setShowA] = useState(true);
+  const toggleShowA = () => setShowA(!showA);
+  
   return (
     <>
-       <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 1 }}>
-        <Toast bg={veriant}> 
-          <Toast.Header className='bg-danger text-white'> 
+       <ToastContainer position="top-end"  className="p-3" style={{ zIndex: 1 }}>
+        <Toast className="d-inline-block m-1" bg={variant} show={showA} onClose={toggleShowA} > 
+          
+          <Toast.Header > 
             <img
               src="holder.js/20x20?text=%20"
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">{message}</strong>
+            <strong className="me-auto">Notification</strong>
            
           </Toast.Header>
-          
+          <Toast.Body className={'text-white'}>{message}</Toast.Body>
         </Toast>
     
       </ToastContainer>
