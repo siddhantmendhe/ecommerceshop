@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../../components/FormContainer';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../components/Loader';
-import { useEditProductMutation, useGetProductDetailsQuery } from '../../slices/productApiSlice';
+import { useEditProductMutation, useGetProductDetailsQuery, useUploadProductImageMutation } from '../../slices/productApiSlice';
 import Message from '../../components/Message';
 import CustomToast from '../../components/CustomToast';
 const ProductEditScreen = () => {
@@ -14,6 +14,7 @@ const ProductEditScreen = () => {
     const navigate= useNavigate();
     const {data: product, refetch, isLoading, error}= useGetProductDetailsQuery(productId);
     const [editProduct,{isLoading:loadingUpdate}]= useEditProductMutation();
+    const [uploadProductImage,{isLoading:loadingUpload}]=useUploadProductImageMutation();
 
     const [name, setName]= useState('');
     const [price, setPrice]=useState(0);
@@ -49,6 +50,19 @@ const ProductEditScreen = () => {
         }
 
     
+    }
+
+    const uploadFileHandler= async(e)=>{
+      const formData= new FormData();
+      formData.append('image',e.target.files[0]);
+      try {
+        const res= await uploadProductImage(formData).unwrap();
+        console.log(res);
+        setImage(res.image);
+      } catch (err) {
+        console.log(err.error);
+      }
+
     }
 
   return (
@@ -97,6 +111,10 @@ const ProductEditScreen = () => {
               value={image}
               onChange={(e) => setImage(e.target.value)}
             ></Form.Control>
+               <Form.Control type='file'
+            label='Choose file'
+            onChange={uploadFileHandler}>
+            </Form.Control>
       
            
           </Form.Group>
@@ -109,6 +127,7 @@ const ProductEditScreen = () => {
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
             ></Form.Control>
+         
           </Form.Group>
          
 
