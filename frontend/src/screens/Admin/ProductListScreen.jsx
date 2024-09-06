@@ -102,6 +102,7 @@ const ProductListScreen = () => {
                     <Button
                       variant='danger'
                       className='btn-sm'
+                      disabled={loadingDelete}
                       onClick={() => deleteHandler(product._id)}
                     >
                       <FaTrash style={{ color: 'white' }} />
