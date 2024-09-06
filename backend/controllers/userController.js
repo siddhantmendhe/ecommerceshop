@@ -124,7 +124,14 @@ const updateUserProfile=asyncHandler(async(req, res)=>{
 // @access Private/Admin
 
 const getUsers =asyncHandler(async(req, res)=>{
-    res.send('get all user');
+    const users= await User.find({});
+    if(users){
+        res.status(200).json(users);
+    }
+    else{
+        res.status(404)
+        throw new Error('User not found');
+    }
 });
 
 // @desc delete users
@@ -132,7 +139,21 @@ const getUsers =asyncHandler(async(req, res)=>{
 // @access Private/Admin
 
 const deleteUser=asyncHandler(async(req, res)=>{
-    res.send('Delete User by ID');
+    const user= await User.findById(req.params.id)
+    if(user){
+        if(user.isAdmin){
+        res.status(404);
+        throw new Error('Can not delete admin user')
+            
+        }
+        await user.deleteOne({_id:user._id});
+        res.status(200).json('user deleted')
+    }
+    else{
+        res.status(404)
+        throw new Error('User not found');
+
+    }
 });
 
 // @desc get users by ID
@@ -140,14 +161,45 @@ const deleteUser=asyncHandler(async(req, res)=>{
 // @access Private/Admin
 
 const getUserById=asyncHandler(async(req, res)=>{
-    res.send('get users by ID');
+    const user= await User.findById(req.params.id).select('-password');;
+    if(user){
+        res.json(user);
+    }else{
+        res.status(404)
+        throw new Error('User not found');
+
+    }
 });
 
 // @desc update user
 // @route PUT/api/users/:id
 // @access Private/Admin
 const updateUser=asyncHandler(async(req, res)=>{
-    res.send('Update Users by ID');
+    const user= await User.findById(req.params.id);
+    const data=req.body
+    if(user){
+        user.name=data.name || user.name;
+        user.email=data.email || user.email;
+        user.isAdmin = Boolean(data.isAdmin);
+        if(req.body.password){
+            user.password=data.password;
+        }
+        const updatedUser=await user.save();
+
+        res.status(200).json({
+            id:updatedUser._id,
+            name:updatedUser.name,
+            email: updatedUser.email,
+            isAdmin:updatedUser.isAdmin
+
+        })
+
+    }
+    else{
+        res.status(404);
+        throw new Error('User not found');
+
+    }
 });
 
 export {
