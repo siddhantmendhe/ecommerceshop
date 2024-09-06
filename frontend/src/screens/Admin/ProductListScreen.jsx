@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {  useCreateProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
+import {  useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import Loader from '../../components/Loader';
@@ -14,9 +14,16 @@ const ProductListScreen = () => {
   const [errTemp, setErrTemp]=useState('');
     const {data,refetch, isLoading, isError}= useGetProductsQuery();
     const [createProduct, {isLoading:createProductLoading}]= useCreateProductMutation();
+    const [deleteProduct, {isLoading:loadingDelete}]= useDeleteProductMutation();
     console.log(data);
-    const deleteHandler=(id)=>{
-        console.log('id', id)
+    const deleteHandler=async(id)=>{
+        try {
+          await deleteProduct(id);
+          refetch()
+        
+        } catch (error) {
+          
+        }
     }
     const createProducthandler=async()=>{
         if(window.confirm("Are you sure you want to add a new product ?")){
@@ -60,6 +67,8 @@ const ProductListScreen = () => {
       </Row>
 
       {createProductLoading&&<Loader/>}
+      {loadingDelete&&<Loader/>}
+
       {isLoading ? (
         <Loader />
       ) : isError ? (

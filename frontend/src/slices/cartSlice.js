@@ -53,7 +53,7 @@ export const cartSlice = createSlice({
                 return temp;
             }           })
          
-            console.log(state);
+            
             state.itemsPrice=addDecimals(state.cartItems.reduce((acc, item)=> acc+item.price*item.qty, 0));
  
            updateCartState(state);
