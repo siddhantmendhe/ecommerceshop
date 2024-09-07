@@ -180,7 +180,7 @@ const updateUser=asyncHandler(async(req, res)=>{
     if(user){
         user.name=data.name || user.name;
         user.email=data.email || user.email;
-        user.isAdmin = Boolean(data.isAdmin);
+        user.isAdmin = Boolean(user.isAdmin)||Boolean(data.isAdmin);
         if(req.body.password){
             user.password=data.password;
         }
