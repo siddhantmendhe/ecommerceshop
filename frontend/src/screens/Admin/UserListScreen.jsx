@@ -43,11 +43,7 @@ const UserListScreen = () => {
         <Col>
           <h1>Users</h1>
         </Col>
-        <Col className='text-end'>
-          <Button className='my-3' onClick={createUserhandler}>
-            <FaPlus /> Create user
-          </Button>
-        </Col>
+       
       </Row>
 
     
