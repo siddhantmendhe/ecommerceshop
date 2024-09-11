@@ -51,7 +51,7 @@ const productSchema=new mongoose.Schema({
     },
     reviews:[reviewSchema],
     rating:{
-        type: mongoose.Decimal128,
+        type: Number,
         required: true,
         default: 0,
     },
