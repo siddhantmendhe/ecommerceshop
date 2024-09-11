@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {Row, Col, Image, ListGroup, Card, Button} from 'react-bootstrap';
 import Rating from '../components/Rating';
+import RatingComponent from '../components/RatingComponent';
 import { useGetProductDetailsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
@@ -22,6 +23,7 @@ const ProductScreen = () => {
         dispatch(addToCart({...product,qty}));
         navigate('/cart')
     }
+    const [rating, setRating] = useState(3)
 
   return (
     <>
@@ -84,6 +86,11 @@ const ProductScreen = () => {
                 </ListGroup>
             </Card>
         </Col>
+        
+    </Row>
+    <Row>
+               
+       <RatingComponent rating={rating} setRating={setRating}/>
     </Row>
     </>)
     }

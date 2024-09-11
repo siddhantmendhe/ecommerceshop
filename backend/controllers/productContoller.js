@@ -90,10 +90,11 @@ const createProductReview= asyncHandler(async (req, res) => {
       throw new Error('Product already reviewed');
     }
     const review = {
+      user: req.user._id,
       name: req.user.name,
       rating: Number(rating),
       comment,
-      user: req.user._id,
+      
     };
 
     product.reviews.push(review);
