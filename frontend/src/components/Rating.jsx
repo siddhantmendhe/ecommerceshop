@@ -6,11 +6,11 @@ const Rating = ({value, text}) => {
   let star=[];
 
     for (let i = 1; i <= 5; i++) {
-      if(value>i){
+      if(value>=i){
       star.push(<FaStar/>) 
       }
       else{
-        if(value===(i-0.5)){
+        if(value<=(i-0.1)&&value>=(i-0.9)){
           star.push( <FaStarHalfAlt/>)
 
         }
