@@ -2,21 +2,23 @@ import {React, useState }from 'react'
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import {Row, Col, Image, ListGroup, Card, Button} from 'react-bootstrap';
+import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap';
 import Rating from '../components/Rating';
 import RatingComponent from '../components/RatingComponent';
-import { useGetProductDetailsQuery } from '../slices/productApiSlice';
+import { useCreateProductMutation, useCreateProductReviewMutation, useGetProductDetailsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
 // import { Prev } from 'react-bootstrap/esm/PageItem';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import Message from '../components/Message';
+import CustomToast from '../components/CustomToast';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 const ProductScreen = () => {
     const {id:productId}= useParams();
     const [qty,setQty]=useState(1);
-    const {data:product, isLoading, isError}=useGetProductDetailsQuery(productId);
+    const {data:product, refetch, isLoading, isError}=useGetProductDetailsQuery(productId);
+    const [createReview,{isLoading:loadingCreateReview}] =useCreateProductReviewMutation();
     const dispatch=useDispatch();
     const navigate=useNavigate();
     //add to card handler
@@ -24,7 +26,25 @@ const ProductScreen = () => {
         dispatch(addToCart({...product,qty}));
         navigate('/cart')
     }
-    const [rating, setRating] = useState(3)
+    const [rating, setRating] = useState(1)
+    const [comment, setComment]= useState('')
+    const {userInfo}=useSelector(state=>state.auth);
+    const submitReviewHandler=async(e)=>{
+        e.preventDefault()
+       try{ 
+        await createReview({rating,productId, comment});
+        
+
+    }
+        catch(err){
+           <Message>err</Message>
+        }
+
+
+
+    }
+
+ 
 
   return (
     <>
@@ -91,7 +111,26 @@ const ProductScreen = () => {
     </Row>
     <Row className='review'>         
        <Col md={5}>
+       
        <h2>Reviews</h2>
+       {userInfo ?(
+            <Form className="mb-3" onSubmit={submitReviewHandler}>
+      <Form.Group className="mb-1" controlId="rating">
+        <Form.Label><strong>Give your rating</strong></Form.Label>
+      <RatingComponent rating={rating} setRating={setRating}/>
+      </Form.Group>
+
+      <Form.Group className="mb-2" controlId="commment">
+        <Form.Label>Comment</Form.Label>
+        <Form.Control as="textarea" rows={3} required value={comment} onChange={(e)=>setComment(e.target.value)}  />
+      </Form.Group>
+    
+      <Button variant="primary" disabled={loadingCreateReview} type="submit">
+        Submit
+      </Button>
+    </Form>
+
+        ):(<Link to={'/login'}><Message>Sign in</Message></Link>)}
               {product.reviews.length === 0 && <Message>No Reviews</Message>}
        <ListGroup variant='flush'>
       {product.reviews.map(review=>{
