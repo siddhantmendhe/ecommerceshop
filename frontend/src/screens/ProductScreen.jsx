@@ -11,6 +11,7 @@ import AlertPage from '../components/AlertPage';
 // import { Prev } from 'react-bootstrap/esm/PageItem';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
+import Message from '../components/Message';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 const ProductScreen = () => {
     const {id:productId}= useParams();
@@ -88,9 +89,22 @@ const ProductScreen = () => {
         </Col>
         
     </Row>
-    <Row>
-               
-       <RatingComponent rating={rating} setRating={setRating}/>
+    <Row className='review'>         
+       <Col md={5}>
+       <h2>Reviews</h2>
+              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+       <ListGroup variant='flush'>
+      {product.reviews.map(review=>{
+        return (<ListGroup.Item key={review._id}>
+            <Rating value={review.rating}/>
+            <strong>{review.comment.replace(/"/g, "")}</strong>
+            <p><small>{review.name}</small></p>
+            <p><small>{review.createdAt.substring(0,10)}</small></p>
+              </ListGroup.Item>)
+      })}
+      </ListGroup> 
+       
+       </Col>
     </Row>
     </>)
     }

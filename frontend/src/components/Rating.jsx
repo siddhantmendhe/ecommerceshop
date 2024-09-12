@@ -7,15 +7,15 @@ const Rating = ({value, text}) => {
 
     for (let i = 1; i <= 5; i++) {
       if(value>=i){
-      star.push(<FaStar/>) 
+      star.push(<FaStar key={i}/>) 
       }
       else{
         if(value<=(i-0.1)&&value>=(i-0.9)){
-          star.push( <FaStarHalfAlt/>)
+          star.push( <FaStarHalfAlt key={i}/>)
 
         }
         else{
-          star.push(<FaRegStar/>)
+          star.push(<FaRegStar key={i}/>)
 
         }
 
