@@ -41,7 +41,7 @@ const ProductScreen = () => {
         setTimeout(() => {
           setAlertDone(false);
         }, 5000);
-        setErrTemp(`New product created`)
+        setErrTemp(`Review Added`)
         
 
     }
