@@ -7,6 +7,7 @@ import { useLoginMutation } from '../slices/userApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import Loader from '../components/Loader'
 import CustomToast from '../components/CustomToast';
+import Message from '../components/Message';
 
 
 const LoginScreen = () => {
@@ -48,11 +49,13 @@ const submitHandler= async(e)=>{
     const response=await login({email,password}).unwrap();
     dispatch(setCredentials({...response}));
   } catch (err) {
+    setErrTemp(err?.data?.message||err)
     setAlert(true);
     setTimeout(() => {
       setAlert(false);
     }, 5000);
-    setErrTemp(err?.data?.message||err)
+    
+    console.log(err?.data?.message||err)
    
   }
 
@@ -60,7 +63,7 @@ const submitHandler= async(e)=>{
   return (
     <FormContainer >
     <h1>Sign In</h1>
-  <div >{alert?   (<CustomToast veriant="danger" message={errTemp}/>):''}</div>
+  <div >{alert&&  (<Message variant="danger">{errTemp}</Message>)}</div>
 
     <Form onSubmit={submitHandler}>
       <Form.Group className='my-2' controlId='email'>

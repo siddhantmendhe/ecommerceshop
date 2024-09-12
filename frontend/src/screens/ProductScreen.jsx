@@ -1,11 +1,10 @@
 import {React, useState }from 'react'
-
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap';
 import Rating from '../components/Rating';
 import RatingComponent from '../components/RatingComponent';
-import { useCreateProductMutation, useCreateProductReviewMutation, useGetProductDetailsQuery } from '../slices/productApiSlice';
+import { useCreateProductReviewMutation, useGetProductDetailsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
 // import { Prev } from 'react-bootstrap/esm/PageItem';
@@ -36,7 +35,7 @@ const ProductScreen = () => {
         e.preventDefault()
        try{ 
         await createReview({rating,productId, comment});
-        
+        refetch();
         setAlertDone(true);
         setTimeout(() => {
           setAlertDone(false);
