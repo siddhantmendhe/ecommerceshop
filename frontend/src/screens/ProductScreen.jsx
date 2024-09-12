@@ -16,6 +16,9 @@ import CustomToast from '../components/CustomToast';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 const ProductScreen = () => {
     const {id:productId}= useParams();
+    const [alert, setAlert]=useState(false); // to track alert
+    const [alertDone, setAlertDone]=useState(false); // to track successful alert
+    const [errTemp, setErrTemp]=useState('');
     const [qty,setQty]=useState(1);
     const {data:product, refetch, isLoading, isError}=useGetProductDetailsQuery(productId);
     const [createReview,{isLoading:loadingCreateReview}] =useCreateProductReviewMutation();
@@ -34,6 +37,12 @@ const ProductScreen = () => {
        try{ 
         await createReview({rating,productId, comment});
         
+        setAlertDone(true);
+        setTimeout(() => {
+          setAlertDone(false);
+        }, 5000);
+        setErrTemp(`New product created`)
+        
 
     }
         catch(err){
@@ -47,7 +56,7 @@ const ProductScreen = () => {
  
 
   return (
-    <>
+    <>{alertDone&&<CustomToast variant='success' message={errTemp}/>}
     {isLoading?(<Loader/>):isError?(<AlertPage/>):( 
         <>
         <Link className='btn btn-light my-3' to='/'>Go Back</Link>

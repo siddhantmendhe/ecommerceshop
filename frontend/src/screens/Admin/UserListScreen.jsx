@@ -22,7 +22,7 @@ const UserListScreen = () => {
           await deleteUser(id);
           refetch();
         } catch (error) {
-          
+          setAlert(true)
         }
 
       }
