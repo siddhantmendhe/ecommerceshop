@@ -5,9 +5,12 @@ import Message from '../../components/Message'
 import { Button, Table } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
+import Paginate from '../../components/Paginate'
+import { useParams } from 'react-router-dom'
 
 const OrderListScreen = () => {
-    const {data:orders, isLoading, error}= useGetAllOrdersQuery()
+  const pageNumber= useParams()
+    const {data, isLoading, error}= useGetAllOrdersQuery(pageNumber)
     
   return (
     <>
@@ -19,6 +22,7 @@ const OrderListScreen = () => {
           {error?.data?.message || error.error}
         </Message>
       ) : (
+        <>
         <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
@@ -32,7 +36,7 @@ const OrderListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {data.orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.user && order.user.name}</td>
@@ -61,9 +65,14 @@ const OrderListScreen = () => {
                 </td>
               </tr>
             ))}
+            
           </tbody>
+      
         </Table>
+        <Paginate page={data.page} pages={data.maxPageNum} pageName="orderlist" isAdmin={true} />
+        </>
       )}
+          
     </>
   )
 }

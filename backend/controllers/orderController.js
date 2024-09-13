@@ -121,10 +121,13 @@ const UpdateOderToDelivered= asyncHandler(async (req, res) => {
 // @route GET/api/orders/all
 // @access Private/Admin
 const getAllOrders= asyncHandler(async (req, res) => {
-    const orders= await Order.find({}).populate('user', '_id name');
+    const pageSize=10;
+    const page=req.query.pageNumber||1;
+    const count=await Order.countDocuments();
+    const orders= await Order.find({}).populate('user', '_id name').limit(pageSize).skip(pageSize*(page-1));
 
   
-    res.status(200).json(orders);
+    res.status(200).json({orders,page, maxPageNum:Math.ceil(count/pageSize)});
 }
 );
 

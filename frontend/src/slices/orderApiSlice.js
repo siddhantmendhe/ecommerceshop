@@ -38,8 +38,11 @@ export const orderApiSlice=apiSlice.injectEndpoints({
             keepUnusedDataFor:5,
           }),
           getAllOrders:builder.query({
-            query:()=>({
-              url:ORDERS_URL
+            query:({pageNumber})=>({
+              url:ORDERS_URL,
+              params:{
+                pageNumber
+              }
             }),
             keepUnusedDataFor:5,
 

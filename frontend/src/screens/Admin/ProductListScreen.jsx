@@ -116,7 +116,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          <Paginate page={data.page} pages={data.maxPageNum} isAdmin={true}/>
+          <Paginate page={data.page} pages={data.maxPageNum} pageName="productlist" isAdmin={true}/>
         </>
       )}
     </>
