@@ -13,7 +13,7 @@ const getProduct= asyncHandler(async (req, res) => {
     const products = await Product.find({}).limit(pageSize).skip(pageSize*(page-1));
     const count= await Product.countDocuments();
     
-    res.json({products,pageSize ,maxPageNum: Math.ceil(count/pageSize)});
+    res.json({products,page ,maxPageNum: Math.ceil(count/pageSize)});
   });
 
 // @desc Fetch single product by ID

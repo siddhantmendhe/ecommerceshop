@@ -5,6 +5,7 @@ import { useGetProductsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
 import { useParams } from 'react-router-dom';
+import Paginate from '../components/Paginate';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 
 const HomeScreen = () => {
@@ -23,6 +24,7 @@ const HomeScreen = () => {
           </Col>
         ))}
       </Row>
+      <Paginate page={data.page} pages={data.maxPageNum} isAdmin={false}/>
       </>}
       
     </>

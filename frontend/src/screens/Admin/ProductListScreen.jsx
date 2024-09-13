@@ -6,13 +6,16 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
 import CustomToast from '../../components/CustomToast';
+import { useParams } from 'react-router-dom';
+import Paginate from '../../components/Paginate';
 
 const ProductListScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
   const [alertDone, setAlertDone]=useState(false); // to track successful alert
+  const pageNumber=useParams()
 
   const [errTemp, setErrTemp]=useState('');
-    const {data,refetch, isLoading, isError}= useGetProductsQuery();
+    const {data,refetch, isLoading, isError}= useGetProductsQuery(pageNumber);
     const [createProduct, {isLoading:createProductLoading}]= useCreateProductMutation();
     const [deleteProduct, {isLoading:loadingDelete}]= useDeleteProductMutation();
     console.log(data);
@@ -88,7 +91,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
@@ -113,7 +116,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          
+          <Paginate page={data.page} pages={data.maxPageNum} isAdmin={true}/>
         </>
       )}
     </>
