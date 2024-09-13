@@ -7,11 +7,10 @@ import AlertPage from '../components/AlertPage';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 
 const HomeScreen = () => {
-  const pageNumber=useParams()
+  const {pageNumber}=useParams()
   const searchValue=useSelector(state=>state.controls.search)
 
   

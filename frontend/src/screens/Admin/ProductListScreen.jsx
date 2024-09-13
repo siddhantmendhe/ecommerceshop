@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 const ProductListScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
   const [alertDone, setAlertDone]=useState(false); // to track successful alert
-  const pageNumber=useParams();
+  const{ pageNumber}=useParams();
   const searchValue=useSelector(state=>state.controls.search)
   
 

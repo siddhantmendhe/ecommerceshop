@@ -2,7 +2,7 @@ import React from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const Paginate = ({page, pages ,pageName,isAdmin}) => {
+const Paginate = ({page, pages ,pageName,isAdmin=false}) => {
   return (
     <>
        <Pagination>

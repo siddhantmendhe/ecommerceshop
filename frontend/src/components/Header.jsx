@@ -44,7 +44,7 @@ const Header = () => {
                 <Navbar.Collapse id='basic-navbar-nav'>
                     <Nav className="ms-auto">
                     <Stack direction="horizontal"  gap={3}>
-                        <Form.Control className="me-auto" placeholder="search" onChange={(e)=>dispatch (updateSearch(e.target.value))}/>
+                        <Form.Control className="me-auto" placeholder="search product" onChange={(e)=>dispatch (updateSearch(e.target.value))}/>
                         
      
                         </Stack>
