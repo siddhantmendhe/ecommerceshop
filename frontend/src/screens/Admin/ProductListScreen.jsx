@@ -8,14 +8,17 @@ import { LinkContainer } from 'react-router-bootstrap';
 import CustomToast from '../../components/CustomToast';
 import { useParams } from 'react-router-dom';
 import Paginate from '../../components/Paginate';
+import { useSelector } from 'react-redux';
 
 const ProductListScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
   const [alertDone, setAlertDone]=useState(false); // to track successful alert
-  const pageNumber=useParams()
+  const pageNumber=useParams();
+  const searchValue=useSelector(state=>state.controls.search)
+  
 
   const [errTemp, setErrTemp]=useState('');
-    const {data,refetch, isLoading, isError}= useGetProductsQuery(pageNumber);
+    const {data,refetch, isLoading, isError}= useGetProductsQuery({pageNumber, searchValue });
     const [createProduct, {isLoading:createProductLoading}]= useCreateProductMutation();
     const [deleteProduct, {isLoading:loadingDelete}]= useDeleteProductMutation();
     console.log(data);
