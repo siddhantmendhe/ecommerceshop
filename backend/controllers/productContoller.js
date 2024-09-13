@@ -9,9 +9,11 @@ import Product from '../models/productModel.js';
 const getProduct= asyncHandler(async (req, res) => {
     const pageSize=4;
     const page=req.query.pageNumber||1;
+    const search=req.query.searchValue?{name: { $regex: req.query.searchValue, $options: "si" }}:{};
+    console.log(search)
     
-    const products = await Product.find({}).limit(pageSize).skip(pageSize*(page-1));
-    const count= await Product.countDocuments();
+    const products = await Product.find({...search}).limit(pageSize).skip(pageSize*(page-1));
+    const count= await Product.countDocuments({...search});
     
     res.json({products,page ,maxPageNum: Math.ceil(count/pageSize)});
   });

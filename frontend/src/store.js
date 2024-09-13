@@ -3,11 +3,13 @@ import { apiSlice } from './slices/apiSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import {cartSlice} from './slices/cartSlice';
 import authSlice from './slices/authSlice';
+import appControlls from './slices/appControlls';
 export const store = configureStore({
     reducer: {
       // Add the generated reducer as a specific top-level slice
       [apiSlice.reducerPath]: apiSlice.reducer,
       cart: cartSlice.reducer,
+      controls:appControlls,
       auth:authSlice.reducer
       
     },

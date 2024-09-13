@@ -1,5 +1,5 @@
-import React from 'react';
-import {Navbar, Nav, Container, Badge,NavDropdown } from 'react-bootstrap';
+import React, { useState } from 'react';
+import {Navbar, Nav, Container, Badge,NavDropdown, Stack, Form, Button } from 'react-bootstrap';
 import {FaShoppingCart, FaUser} from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import {LinkContainer} from 'react-router-bootstrap';
@@ -7,14 +7,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutApiMutation } from '../slices/userApiSlice';
 import { setLogoutUser } from '../slices/authSlice';
+import { updateSearch } from '../slices/appControlls';
 
 
 const Header = () => {
     const {cartItems}=useSelector(state=>state.cart);
-    const {userInfo}= useSelector(state=> state.auth)
+    const {userInfo}= useSelector(state=> state.auth);
+    const search=useSelector(state=>state.controls.search)
+  
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const [logoutApi]=useLogoutApiMutation();
+    console.log(search)
     
 
     //logout functionality
@@ -35,9 +39,15 @@ const Header = () => {
                     <img src={logo} alt="" />
                      EcommerceShop</Navbar.Brand>
                      </LinkContainer>
+                     
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id='basic-navbar-nav'>
                     <Nav className="ms-auto">
+                    <Stack direction="horizontal"  gap={3}>
+                        <Form.Control className="me-auto" placeholder="search" onChange={(e)=>dispatch (updateSearch(e.target.value))}/>
+                        
+     
+                        </Stack>
                         <LinkContainer to='/cart'>
                         <Nav.Link><FaShoppingCart/>
                         
@@ -45,7 +55,8 @@ const Header = () => {
                         {cartItems.length > 0 && (
                     <Badge pill bg='success' style={{ marginLeft: '5px' }}>
                       {cartItemCount}
-                    </Badge>)}</Nav.Link>
+                    </Badge>)}
+                    </Nav.Link>
                         </LinkContainer>
                         {userInfo?
                         (<NavDropdown title={`${userInfo.name} profile`} id="usernme">
@@ -66,6 +77,7 @@ const Header = () => {
                         </NavDropdown>):(  <LinkContainer to="/login">
                         <Nav.Link><FaUser/>Sign In</Nav.Link>
                         </LinkContainer>)}
+                       
 
                    
                       
