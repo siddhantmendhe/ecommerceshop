@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {Navbar, Nav, Container, Badge,NavDropdown, Stack, Form, Button } from 'react-bootstrap';
+import React from 'react';
+import {Navbar, Nav, Container, Badge,NavDropdown, Stack, Form } from 'react-bootstrap';
 import {FaShoppingCart, FaUser} from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import {LinkContainer} from 'react-router-bootstrap';
@@ -44,7 +44,7 @@ const Header = () => {
                 <Navbar.Collapse id='basic-navbar-nav'>
                     <Nav className="ms-auto">
                     <Stack direction="horizontal"  gap={3}>
-                        <Form.Control className="me-auto" placeholder="search product" onChange={(e)=>dispatch (updateSearch(e.target.value))}/>
+                        <Form.Control className="me-auto" placeholder="search product" value={search} onChange={(e)=>dispatch (updateSearch(e.target.value))}/>
                         
      
                         </Stack>

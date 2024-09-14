@@ -29,6 +29,20 @@ const getProducts= asyncHandler(async (req, res) => {
     res.status(404).json({ message: 'Product not found' });
   })
 
+  // @desc Fetch all products
+// @route GET/api/products
+// @access Public
+const getTopProducts= asyncHandler(async (req, res) => {
+
+
+  
+  
+  const products = await Product.find({}).sort({reviews:-1}).limit(3);
+  
+  
+  res.json({products });
+});
+
 // @desc create new product
 // @route POST/api/products/
 // @access Private/Admin
@@ -121,7 +135,7 @@ const createProductReview= asyncHandler(async (req, res) => {
     
 
 })
-export {getProduct, getProducts, createProduct, editProduct, deleteProduct, createProductReview};
+export {getProduct, getProducts, createProduct, editProduct, deleteProduct, createProductReview, getTopProducts};
 
 
 

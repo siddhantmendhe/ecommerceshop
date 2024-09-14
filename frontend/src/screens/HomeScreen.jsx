@@ -4,22 +4,35 @@ import Product from '../components/Product';
 import { useGetProductsQuery } from '../slices/productApiSlice';
 import Loader from '../components/Loader';
 import AlertPage from '../components/AlertPage';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import ProductCarousels from '../components/ProductCarousels';
+import { updateSearch } from '../slices/appControlls';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 
 const HomeScreen = () => {
   const {pageNumber}=useParams()
+  const dispatch=useDispatch()
   const searchValue=useSelector(state=>state.controls.search)
 
-  
+  const handleSearchBack=async(e)=>{
+    e.preventDefault()
+    dispatch(updateSearch(''))
+    console.log(1)
+    
+
+  }
   const  {data, isLoading, isError}=useGetProductsQuery({pageNumber, searchValue });
 
   return (
     <>
+        
+        {searchValue===''?(<ProductCarousels/>):( <Link className='btn btn-light my-3'  onClick={(e)=>handleSearchBack(e)}>Go Back</Link>)}
+
     {isLoading?(<Loader/>):isError?(<AlertPage/>):<>
     <h1>Latest Products</h1>
+
       <Row>
         
         {data.products.map((product) => (
