@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import Carousel from 'react-bootstrap/Carousel';
 import {  useGetTopProductsQuery } from '../slices/productApiSlice';
 import Message from './Message';

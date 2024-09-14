@@ -16,7 +16,6 @@ import HelmetComponent from '../components/HelmetComponent';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 const ProductScreen = () => {
     const {id:productId}= useParams();
-    const [alert, setAlert]=useState(false); // to track alert
     const [alertDone, setAlertDone]=useState(false); // to track successful alert
     const [errTemp, setErrTemp]=useState('');
     const [qty,setQty]=useState(1);

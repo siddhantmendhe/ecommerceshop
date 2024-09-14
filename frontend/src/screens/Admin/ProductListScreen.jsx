@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {  useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { Helmet } from 'react-helmet-async'
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
