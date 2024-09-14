@@ -20,9 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
-app.get('/', (req, res)=>{
-    res.send('API is runnig...');
-});
+
 app.use('/api/products', productRoutes);
 
 app.use('/api/users',userRoutes);
@@ -36,6 +34,21 @@ app.get('/api/config/paypal',(req,res)=>res.send({clientID:process.env.PAYPAL_CL
 
 const __dirname=path.resolve();
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
+if(process.env.NODE_ENV==='production'){
+    //static folder
+    app.use(express.static(path.join(__dirname,'/frontend/build')));
+
+// any route
+    app.get('*',(req, res)=>{
+        app.sendFile(express.static(path.join(__dirname,'frontend', 'build', 'index.html')))
+    }
+    )}
+    else{
+        app.get('/', (req, res)=>{
+            res.send('API is runnig...');
+        });
+    }
+ 
 app.use(errorHandler);
 
 
