@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useProfileUpdateMutation } from '../slices/userApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import { useGetMyOrdersQuery } from '../slices/orderApiSlice'
+import HelmetComponent from '../components/HelmetComponent'
 
 const ProfileScreen = () => {
     const [alert, setAlert]=useState(false); // to track alert
@@ -71,6 +72,8 @@ const ProfileScreen = () => {
   {alertDone &&<Message variant='success'>
    {errTemp}
   </Message>}
+  <HelmetComponent title="Profile"/>
+
       <h2>User Profile</h2>
 
       <Form onSubmit={submitHandler}>

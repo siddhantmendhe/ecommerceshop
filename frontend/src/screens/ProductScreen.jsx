@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import Message from '../components/Message';
 import CustomToast from '../components/CustomToast';
+import HelmetComponent from '../components/HelmetComponent';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 const ProductScreen = () => {
     const {id:productId}= useParams();
@@ -58,6 +59,7 @@ const ProductScreen = () => {
     <>{alertDone&&<CustomToast variant='success' message={errTemp}/>}
     {isLoading?(<Loader/>):isError?(<AlertPage/>):( 
         <>
+        <HelmetComponent title={product.name}/>
         <Link className='btn btn-light my-3' to='/'>Go Back</Link>
     <Row>
         <Col md={5}>

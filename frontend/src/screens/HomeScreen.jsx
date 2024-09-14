@@ -9,6 +9,7 @@ import Paginate from '../components/Paginate';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCarousels from '../components/ProductCarousels';
 import { updateSearch } from '../slices/appControlls';
+import HelmetComponent from '../components/HelmetComponent';
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 
 const HomeScreen = () => {
@@ -16,7 +17,7 @@ const HomeScreen = () => {
   const dispatch=useDispatch()
   const searchValue=useSelector(state=>state.controls.search)
 
-  const handleSearchBack=async(e)=>{
+  const handleSearchBack=(e)=>{
     e.preventDefault()
     dispatch(updateSearch(''))
     console.log(1)
@@ -31,6 +32,7 @@ const HomeScreen = () => {
         {searchValue===''?(<ProductCarousels/>):( <Link className='btn btn-light my-3'  onClick={(e)=>handleSearchBack(e)}>Go Back</Link>)}
 
     {isLoading?(<Loader/>):isError?(<AlertPage/>):<>
+    <HelmetComponent />
     <h1>Latest Products</h1>
 
       <Row>

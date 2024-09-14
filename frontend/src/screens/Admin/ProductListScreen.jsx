@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {  useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '../../slices/productApiSlice'
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
+import { Helmet } from 'react-helmet-async'
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -9,6 +10,7 @@ import CustomToast from '../../components/CustomToast';
 import { useParams } from 'react-router-dom';
 import Paginate from '../../components/Paginate';
 import { useSelector } from 'react-redux';
+import HelmetComponent from '../../components/HelmetComponent';
 
 const ProductListScreen = () => {
   const [alert, setAlert]=useState(false); // to track alert
@@ -55,6 +57,7 @@ const ProductListScreen = () => {
  
   return (
     <>
+    <HelmetComponent title="Product List"/>
     {alert &&<CustomToast variant='danger' message={errTemp}>
 
   </CustomToast>}
