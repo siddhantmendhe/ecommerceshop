@@ -155,7 +155,7 @@ const OrderScreen = () => {
       isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error}</Message>
+    <Message variant='danger'>{error?.data?.message || error.error}</Message>
   ) : (
     <> {alert &&<Message variant='danger'>
    {errTemp}
