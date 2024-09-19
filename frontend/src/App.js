@@ -5,13 +5,12 @@ import Footer from './components/Footer'
 import { Outlet } from 'react-router-dom'
 
 const App = () => {
-  const [search, setSearch]= useState('')
   return (
     <div aria-live="polite"
     aria-atomic="true"
     className=" position-relative"
     style={{ minHeight: '240px' }}>
-    <Header search={search} setSearch={setSearch}/>
+    <Header />
     <main className='py-3'>
       <Container>
      <Outlet/>
