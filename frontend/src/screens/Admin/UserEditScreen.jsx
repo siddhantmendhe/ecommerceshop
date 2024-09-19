@@ -19,7 +19,6 @@ const UserEditScreen = () => {
     const [name, setName]= useState('');
     const [email, setEmail]=useState('');
     const [isAdmin, setAdmin]=useState(false);
-    
 
     useEffect(()=>{
         if(user){
@@ -32,25 +31,17 @@ const UserEditScreen = () => {
 
     const submitHandler=async(e)=>{
         e.preventDefault();
-        let timefun;
         try {
             await updateUser({userId ,name,email, isAdmin});
             refetch()
                  
           setAlertDone(true);
-         timefun= setTimeout(() => {
+          setTimeout(() => {
             setAlertDone(false);
           }, 5000);
       setErrTemp(`User Updated `)
         } catch (err) {
-         clearTimeout(timefun)
-         setAlert(true);
-         console.log(err)
-         setErrTemp(err)
-         setTimeout(() => {
-          setAlert(false);
-        }, 5000);
-
+         
         }
 
     
