@@ -78,7 +78,7 @@ const OrderScreen = () => {
   const onApproveOrder = (data,actions) => {
     return actions.order.capture().then(async(details) => {
         try {
-          await payOrder({orderId,details}).unwrap()
+          await payOrder({orderId,details})
       refetch();
 
           setAlertDone(true);
