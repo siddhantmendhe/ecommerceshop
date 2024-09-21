@@ -8,6 +8,7 @@ import uploadRoutes from './routs/uploadRoutes.js'
 import orderRoutes from './routs/orderRoutes.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser'
+dotenv.config();
 
 const port = process.env.PORT || 5000;
 connectDB();
