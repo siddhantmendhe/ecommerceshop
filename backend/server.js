@@ -8,7 +8,7 @@ import uploadRoutes from './routs/uploadRoutes.js'
 import orderRoutes from './routs/orderRoutes.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser'
-
+dotenv.config();
 
 const port = process.env.PORT || 5000;
 connectDB();
@@ -37,7 +37,6 @@ app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
 if(process.env.NODE_ENV==='production'){
     //static folder
     app.use(express.static(path.join(__dirname,'/frontend/build')));
-
 // any route
     app.get('*',(req, res)=>{
         app.sendFile(express.static(path.join(__dirname,'frontend', 'build', 'index.html')))
