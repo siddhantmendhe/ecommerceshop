@@ -1,4 +1,4 @@
-URL: https://ecomshop-f262.onrender.com
+URL: https://ecommerceshop2.onrender.com
 
 This is an online shopping MERN stack project. 
 features: Admin functions- products management, order management, user management. 
